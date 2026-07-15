@@ -12,7 +12,15 @@
 
 <nav>
   <div class="wrap">
-    <div class="brand">Vista <span>Cordillera</span></div>
+    <div class="brand">
+      <svg width="20" height="16" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M1 17L8.5 5L13 12L16 7.5L23 17" stroke="#E8A33D" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+      </svg>
+      <div>
+        Vista <span>Cordillera</span>
+        <small>DEPTO 505</small>
+      </div>
+    </div>
     <div class="nav-links">
       <a href="#espacio">El espacio</a>
       <a href="#barrio">El barrio</a>
@@ -27,6 +35,12 @@
   <div class="wrap hero-grid">
     <div>
       <p class="eyebrow">Estación Central · Santiago de Chile</p>
+      <div class="rating-badge">
+        <span class="stars">★★★★★</span>
+        <span>4,9 <small>· 42 reseñas</small></span>
+        <span class="badge-divider">|</span>
+        <span>Favorito entre huéspedes</span>
+      </div>
       <h1>Duerme a pasos de <em>todo</em> Santiago.</h1>
       <p class="lede">Un departamento pensado para quien llega o parte en tren, bus o avión. A cuadras del Terminal Alameda, con todo lo que necesitas caminando.</p>
       <div class="cta-row">
@@ -62,14 +76,14 @@
         <div class="val dim">4 min</div>
       </div>
       <div class="row" style="animation-delay:.33s">
-        <div class="dest">Metro / Tren Central <small>líneas de conexión</small></div>
+        <div class="dest">Metro Ecuador / San Alberto Hurtado <small>Línea 1</small></div>
         <div class="val">4 min</div>
         <div class="val dim">—</div>
       </div>
       <div class="row" style="animation-delay:.40s">
         <div class="dest">Aeropuerto AMB <small>Arturo Merino Benítez</small></div>
         <div class="val dim">—</div>
-        <div class="val">25 min</div>
+        <div class="val">12 min</div>
       </div>
       <div class="row" style="animation-delay:.40s">
         <div class="dest">Comisaria <small>Comisaria 21 Carabineros de Chile - Av. Ecuador 4050, 9170429 Estación Central, Región Metropolitana</small></div>
@@ -84,7 +98,7 @@
   </div>
 </header>
 
-<section id="espacio">
+<section id="espacio" class="reveal">
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">01 — El espacio</p>
@@ -97,26 +111,26 @@
         <span>Living — luz de tarde</span>
       </div>
       <div class="g-tile g2">
-        <img src="img/cocina.jpeg" alt="Cocina equipada">
+        <img src="img/cocina.jpeg" alt="Cocina equipada" loading="lazy">
         <span>Cocina equipada</span>
       </div>
       <div class="g-tile g3">
-        <img src="img/habitacion.jpg" alt="Dormitorio principal">
+        <img src="img/habitacion.jpg" alt="Dormitorio principal" loading="lazy">
         <span>Dormitorio principal</span>
       </div>
       <div class="g-tile g4">
-        <img src="img/ducha.jpeg" alt="Baño">
+        <img src="img/ducha.jpeg" alt="Baño" loading="lazy">
         <span>Baño equipado con agua caliente shampoo, acondicionador, jabon, toallas, papel higiénico</span>
       </div>
       <div class="g-tile g5">
-        <img src="img/balcon.jpeg" alt="Vista desde Alameda">
+        <img src="img/balcon.jpeg" alt="Vista desde Alameda" loading="lazy">
         <span>Vista Alameda</span>
       </div>
     </div>
   </div>
 </section>
 
-<section class="alt" id="por-que">
+<section class="alt reveal" id="por-que">
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">02 — Por qué aquí</p>
@@ -142,7 +156,11 @@
   </div>
 </section>
 
-<section id="barrio">
+<div class="wrap" style="text-align:center; padding:0 24px 8px;">
+  <a class="btn btn-primary" href="#contacto">Reservar ahora →</a>
+</div>
+
+<section id="barrio" class="reveal">
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">03 — El barrio</p>
@@ -156,20 +174,49 @@
       <div class="neigh-item"><div class="name">Palacio del Poroto</div><div class="cat">Comida chilena</div><div class="time">7 min a pie</div></div>
       <div class="neigh-item"><div class="name">Parque Quinta Normal</div><div class="cat">Cultura / aire libre</div><div class="time">12 min en auto</div></div>
       <div class="neigh-item"><div class="name">Movistar Arena</div><div class="cat">Eventos</div><div class="time">10 min a pie</div></div>
-      <div class="neigh-item"><div class="name">Aeropuerto AMB</div><div class="cat">Viajes</div><div class="time">25 min en auto</div></div>
+      <div class="neigh-item"><div class="name">Aeropuerto AMB</div><div class="cat">Viajes</div><div class="time">12 min en auto</div></div>
+    </div>
+    <p class="barrio-note">Nota: el edificio no cuenta con estacionamiento propio — recomendamos Uber o el Metro Línea 1, a 4 minutos caminando.</p>
+  </div>
+</section>
+
+<section class="alt reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">04 — Huéspedes</p>
+      <h2>Lo que dicen quienes ya se quedaron.</h2>
+      <p>4,9 sobre 5 en 42 reseñas de Airbnb — reseñas reales, sin editar.</p>
+    </div>
+    <div class="reviews">
+      <div class="review">
+        <p class="testi">"Todo muy bello, limpio y decorado precioso.  Esta ubicado cerca del metro que es un plus y está rodeado de negocios además frio no pasarás porque tienen un aire acondicionado que no traiciona"</p>
+        <p class="testi-meta">— Sofia</p>
+      </div>
+      <div class="review">
+        <p class="testi">"Excelente ubicación, apartamento impecable. Con champú, acondicionador, jabón líquido, secador de pelo, plancha, tés, café y todos los utensilios de cocina para turistas. Gracias por la flexibilidad."</p>
+        <p class="testi-meta">— Suzane</p>
+      </div>
+      <div class="review">
+        <p class="testi">"El lugar es tal cual como se muestra en las fotos: muy limpio, cómodo y completamente equipado. Tiene todo lo necesario, desde utensilios de cocina hasta toallas, lo que lo hace ideal tanto para estadías cortas como largas. Además, cuenta con buena vista, calefacción, Smart TV y wifi funcionando sin problemas. Me voy muy conforme con el arriendo, totalmente recomendable."</p>
+        <p class="testi-meta">— Roberto</p>
+      </div>
+      <div class="review">
+        <p class="testi">"apartamento sumamente cómodo y con todo lo necesario para pasar una excelente estadía en Santiago , la señorita Alejandra siempre muy amable y atenta a cualquier requerimiento, recomiendo al 100 %"</p>
+        <p class="testi-meta">Albert <br> Lima, Perú</p>
+      </div>
+      <div class="review">
+        <p class="testi">"El alojamiento fue excelente. Muy limpio, cómodo y bien equipado, tal como se muestra en las fotos. Tiene una buena ubicación y la comunicación con Alejandra fue rápida y súper amable."</p>
+        <p class="testi-meta">Fabiola <br> Santiago, Chile</p>
+      </div>
+      <div class="review">
+        <p class="testi">"Depto hermoso y la anfitriona muy considerada y flexible con nuestro horario de salida, recomiendo el lugar y con mi pareja nos volveríamos a quedar aca nuevamente 😁 muchas gracias por todo"</p>
+        <p class="testi-meta">Juan Francisco <br> Rio de Janeiro, Brasil</p>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="alt">
-  <div class="wrap">
-    <p class="eyebrow">04 — Huéspedes</p>
-    <p class="testi" style="margin-top:16px;">"Llegamos de madrugada en bus desde el sur y en cinco minutos ya estábamos durmiendo. Justo lo que necesitábamos antes de tomar el vuelo."</p>
-    <p class="testi-meta">— Huésped, reserva de una noche</p>
-  </div>
-</section>
-
-<section class="final-cta" id="contacto">
+<section class="final-cta reveal" id="contacto">
   <div class="wrap">
     <p class="eyebrow">Reserva directa</p>
     <h2>Sin comisión de plataforma.<br>Coordina directo conmigo.</h2>
@@ -183,11 +230,29 @@
 </section>
 
 <footer>
-  <div class="wrap" style="display:flex; justify-content:space-between; width:100%; flex-wrap:wrap; gap:12px;">
-    <span>Alameda 4362 · Estación Central, Santiago  depto 505</span>
-    <span><a href="https://pulidodev.com" target="_blank" rel="noopener">pulidodev.com</a></span>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">Vista <span>Cordillera</span> 505</div>
+        <p class="footer-address">Alameda 4362 · Estación Central, Santiago</p>
+      </div>
+      <div class="footer-links">
+        <a href="https://wa.me/56963008006" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="https://www.airbnb.com/h/vistacordillera-santiago-chile" target="_blank" rel="noopener">Airbnb</a>
+        <a href="https://www.booking.com/Share-9G10Ls" target="_blank" rel="noopener">Booking</a>
+        <a href="#contacto">Reservar</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Vista Cordillera 505</span>
+      <span>Sitio por <a href="https://pulidodev.com" target="_blank" rel="noopener">pulidodev.com</a></span>
+    </div>
   </div>
 </footer>
+
+<a class="float-cta" href="https://wa.me/56963008006" target="_blank" rel="noopener" aria-label="Reservar por WhatsApp">
+  <span>Reservar por WhatsApp</span> →
+</a>
 
 <script src="main.js"></script>
 </body>
