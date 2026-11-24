@@ -18,6 +18,16 @@
       if (v !== undefined && v !== null && v !== '') el.textContent = v;
     });
 
+    // Portada
+    if (c.titulo && String(c.titulo).trim()) {
+      document.getElementById('hero-title').innerHTML = esc(c.titulo).replace(/\*([^*]+)\*/g, '<em>$1</em>');
+    }
+    if (c.bajada && String(c.bajada).trim()) document.getElementById('hero-lede').textContent = c.bajada;
+    if (c.portada && safeUrl(c.portada)) {
+      const hi = document.getElementById('hero-img');
+      if (hi.getAttribute('src') !== c.portada) hi.src = c.portada;
+    }
+
     // Aviso superior
     const aviso = document.getElementById('aviso');
     if (c.aviso && String(c.aviso).trim()) { aviso.textContent = c.aviso; aviso.hidden = false; }
