@@ -142,11 +142,9 @@ Deno.serve(async (req: Request) => {
 
   try {
     const content = await loadContent();
-    const response = await client.beta.messages.create({
-      model: "claude-opus-5-5",
+    const response = await client.messages.create({
+      model: "claude-haiku-5-5",
       max_tokens: 2048,
-      betas: ["server-side-fallback-2026-07-01"],
-      fallbacks: "default",
       output_config: { effort: "low" },
       system: [{ type: "text", text: buildSystem(content), cache_control: { type: "ephemeral" } }],
       messages,

@@ -13,4 +13,4 @@ más lo que se guarda en el panel /admin: anfitriones, datos del aviso y "Asiste
 supabase functions deploy asistente --no-verify-jwt --project-ref ijavxodziuvnoairqvfu
 ```
 
-Usa Claude Opus 5.5 con esfuerzo bajo y respuestas cortas; límite de 20 preguntas cada 10 minutos por IP.
+Usa Claude Haiku 5.5 con esfuerzo bajo y respuestas cortas; límite de 20 preguntas cada 10 minutos por IP.
