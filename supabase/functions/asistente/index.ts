@@ -91,23 +91,27 @@ Cómo responder:
 - Si te piden algo que no tiene que ver con el departamento o un viaje a Santiago, redirige amablemente la conversación.`;
 }
 
+function cors(origin: string): Record<string, string> {
+  return {
+    "Access-Control-Allow-Origin": origin,
+    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Max-Age": "86400",
+    "Vary": "Origin",
+  };
+}
+
 function json(body: unknown, status: number, origin: string) {
   return new Response(JSON.stringify(body), {
     status,
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": origin,
-      "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Vary": "Origin",
-    },
+    headers: { "Content-Type": "application/json", ...cors(origin) },
   });
 }
 
 Deno.serve(async (req: Request) => {
   const origin = req.headers.get("origin") || "";
   const allow = isAllowedOrigin(origin) ? origin : ALLOWED_ORIGINS[0];
-  if (req.method === "OPTIONS") return json({}, 204, allow);
+  if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: cors(allow) });
   if (req.method !== "POST") return json({ error: "Método no permitido" }, 405, allow);
   if (origin && !isAllowedOrigin(origin)) return json({ error: "Origen no permitido" }, 403, allow);
 
