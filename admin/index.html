@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Panel · Vista Cordillera 505</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--night:#0F1E2B;--amber:#E8A33D;--paper:#FBF8F2;--sand:#F3ECDF;--ink:#1A2733;--muted:#5E6E7B;--line:rgba(26,39,51,.12);--ok:#1f9d55;--bad:#c0392b;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Inter,system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.5;padding-bottom:110px;}
+h1,h2{font-family:Fraunces,Georgia,serif;font-weight:600;}
+header{background:var(--night);color:var(--paper);padding:16px;display:flex;justify-content:space-between;align-items:center;gap:12px;position:sticky;top:0;z-index:5;}
+header h1{font-size:1.1rem;} header h1 b{color:var(--amber);}
+header a{color:var(--paper);font-size:.85rem;}
+main{max-width:760px;margin:0 auto;padding:20px 16px;}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:18px;}
+.card h2{font-size:1.25rem;margin-bottom:4px;}
+.hint{color:var(--muted);font-size:.86rem;margin-bottom:14px;}
+label{display:block;font-size:.82rem;font-weight:600;margin:10px 0 4px;color:var(--muted);}
+input,textarea{width:100%;font:inherit;font-size:16px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);}
+textarea{min-height:90px;resize:vertical;}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0 12px;}
+@media(max-width:520px){.grid{grid-template-columns:1fr 1fr;}}
+button{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:11px 18px;font-weight:600;}
+.primary{background:var(--amber);color:var(--night);}
+.ghost{background:var(--sand);color:var(--ink);}
+.danger{background:#fbe9e7;color:var(--bad);}
+.small{padding:7px 12px;font-size:.82rem;}
+.photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:12px;}
+.ph{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper);display:flex;flex-direction:column;}
+.ph img{width:100%;aspect-ratio:4/3;object-fit:cover;}
+.ph .tag{font-size:.7rem;font-weight:700;background:var(--amber);color:var(--night);padding:2px 8px;border-radius:99px;position:absolute;top:8px;left:8px;}
+.ph .top{position:relative;}
+.ph input{border:0;border-top:1px solid var(--line);border-radius:0;font-size:14px;background:#fff;}
+.ph .acts{display:flex;justify-content:space-between;padding:6px;gap:4px;}
+.ph .acts button{padding:6px 10px;font-size:.85rem;background:var(--sand);}
+.ph .acts .del{background:#fbe9e7;color:var(--bad);}
+.upload{min-height:110px !important;}
+.upload{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;border:2px dashed var(--line);border-radius:12px;min-height:160px;color:var(--muted);cursor:pointer;text-align:center;padding:12px;}
+.upload:hover{border-color:var(--amber);color:var(--ink);}
+.upload b{font-size:2rem;line-height:1;color:var(--amber);}
+.rev{border-top:1px solid var(--line);padding-top:12px;margin-top:12px;}
+.rev .row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end;}
+.savebar{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:12px 16px;display:flex;justify-content:center;gap:12px;align-items:center;z-index:5;}
+.savebar .primary{padding:14px 28px;font-size:1rem;}
+#status{font-size:.88rem;color:var(--muted);}
+#status.ok{color:var(--ok);} #status.bad{color:var(--bad);}
+.login{max-width:400px;margin:40px auto;}
+.login .row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+.msg{margin-top:12px;font-size:.9rem;}
+[hidden]{display:none !important;}
+</style>
+</head>
+<body>
+<header>
+  <h1>Vista <b>Cordillera</b> · Panel</h1>
+  <div><a href="../" target="_blank">Ver sitio ↗</a> &nbsp; <a href="#" id="logout" hidden>Salir</a></div>
+</header>
+
+<main>
+  <!-- LOGIN -->
+  <section class="card login" id="login">
+    <h2>Entrar</h2>
+    <p class="hint">Solo el correo autorizado puede guardar cambios.</p>
+    <form id="login-form">
+      <label for="email">Correo</label>
+      <input id="email" type="email" autocomplete="email" required>
+      <label for="pass">Clave</label>
+      <input id="pass" type="password" autocomplete="current-password" minlength="6" required>
+      <div class="row">
+        <button class="primary" type="submit">Entrar</button>
+        <button class="ghost" type="button" id="signup">Es mi primera vez: crear clave</button>
+      </div>
+      <p class="msg" id="login-msg"></p>
+    </form>
+  </section>
+
+  <!-- EDITOR -->
+  <div id="editor" hidden>
+    <section class="card">
+      <h2>Fotos</h2>
+      <p class="hint">Las fotos nuevas quedan al principio. La primera es la grande de la galería: usa ★ para dejar una como principal y ◀ ▶ para ordenar. Escribe una descripción corta en cada una.</p>
+      <label class="upload" for="file"><b>+</b>Subir fotos<br><small>desde tu celular o computador (puedes elegir varias)</small></label>
+      <div class="photos" id="photos"></div>
+      <input type="file" id="file" accept="image/*" multiple hidden>
+    </section>
+
+    <section class="card">
+      <h2>Aviso destacado</h2>
+      <p class="hint">Una frase que aparece en una franja arriba del sitio. Déjalo vacío para ocultarla. Ej: “¡Diciembre con 10 % de descuento reservando directo!”</p>
+      <input id="f-aviso" maxlength="140">
+    </section>
+
+    <section class="card">
+      <h2>Datos del aviso</h2>
+      <p class="hint">Cópialos de Airbnb cuando cambien.</p>
+      <div class="grid">
+        <div><label>Calificación</label><input id="f-rating" placeholder="4,89"></div>
+        <div><label>N° de reseñas</label><input id="f-reviews" inputmode="numeric"></div>
+        <div><label>Huéspedes</label><input id="f-huespedes" inputmode="numeric"></div>
+        <div><label>Dormitorios</label><input id="f-dormitorios" inputmode="numeric"></div>
+        <div><label>Camas</label><input id="f-camas" inputmode="numeric"></div>
+        <div><label>Baños</label><input id="f-banos" inputmode="numeric"></div>
+      </div>
+      <label>WhatsApp (con 56)</label><input id="f-whatsapp" inputmode="tel">
+      <label>Link Airbnb</label><input id="f-airbnb" type="url">
+      <label>Link Booking</label><input id="f-booking" type="url">
+    </section>
+
+    <section class="card">
+      <h2>Reseñas</h2>
+      <p class="hint">Copia las que más te gusten de Airbnb.</p>
+      <div id="reviews"></div>
+      <button class="ghost small" type="button" id="add-rev" style="margin-top:14px">+ Agregar reseña</button>
+    </section>
+  </div>
+</main>
+
+<div class="savebar" id="savebar" hidden>
+  <span id="status">Sin cambios</span>
+  <button class="primary" id="save" type="button">Guardar y publicar</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="../config.js"></script>
+<script src="../content.js"></script>
+<script>
+(function(){
+  const cfg = window.SITE_CONFIG;
+  const sb = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseKey);
+  const $ = (id) => document.getElementById(id);
+  const FIELDS = ['aviso','rating','reviews','huespedes','dormitorios','camas','banos','whatsapp','airbnb','booking'];
+  let data = null;
+
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const view = (src) => /^https?:/i.test(src) ? src : '../' + src;
+  function setStatus(t, cls){ const s=$('status'); s.textContent=t; s.className=cls||''; }
+  function dirty(){ setStatus('Cambios sin guardar'); }
+
+  // ── Login ─────────────────────────────
+  async function boot(){
+    const { data: { session } } = await sb.auth.getSession();
+    if (session) startEditor(); else { $('login').hidden=false; }
+  }
+  $('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    $('login-msg').textContent='Entrando…';
+    const { error } = await sb.auth.signInWithPassword({ email: $('email').value.trim(), password: $('pass').value });
+    if (error) { $('login-msg').textContent = 'No se pudo entrar: ' + (error.message.includes('confirm') ? 'primero confirma tu correo con el enlace que te llegó.' : 'correo o clave incorrectos.'); return; }
+    startEditor();
+  });
+  $('signup').addEventListener('click', async () => {
+    const email=$('email').value.trim(), pass=$('pass').value;
+    if (!email || pass.length<6) { $('login-msg').textContent='Escribe tu correo y una clave de al menos 6 caracteres.'; return; }
+    const { data:d, error } = await sb.auth.signUp({ email, password: pass, options:{ emailRedirectTo: location.href.split('#')[0] } });
+    if (error) { $('login-msg').textContent='Error: '+error.message; return; }
+    if (d.session) startEditor();
+    else $('login-msg').textContent='Listo. Revisa tu correo y abre el enlace de confirmación; después vuelve aquí y entra con tu clave.';
+  });
+  $('logout').addEventListener('click', async (e) => { e.preventDefault(); await sb.auth.signOut(); location.reload(); });
+
+  // ── Editor ────────────────────────────
+  async function startEditor(){
+    $('login').hidden=true; $('editor').hidden=false; $('savebar').hidden=false; $('logout').hidden=false;
+    const { data: rows } = await sb.from(cfg.tabla).select('data').eq('id',1).maybeSingle().then(r => ({ data: r.data }));
+    const remote = rows && rows.data && Object.keys(rows.data).length ? rows.data : {};
+    data = JSON.parse(JSON.stringify(Object.assign({}, window.SITE_CONTENT, remote)));
+    FIELDS.forEach((k) => { const el=$('f-'+k); el.value = data[k] ?? ''; el.addEventListener('input', dirty); });
+    renderPhotos(); renderReviews();
+    setStatus(Object.keys(remote).length ? 'Contenido cargado' : 'Mostrando el contenido actual del sitio');
+  }
+
+  function renderPhotos(){
+    const box=$('photos');
+    box.innerHTML = data.fotos.map((f,i)=>`
+      <div class="ph" data-i="${i}">
+        <div class="top"><img src="${esc(view(f.src))}" alt="">${i===0?'<span class="tag">Principal</span>':''}</div>
+        <input value="${esc(f.texto)}" placeholder="Descripción" data-cap="${i}">
+        <div class="acts">
+          <button type="button" data-mv="-1" aria-label="Mover antes">◀</button>
+          ${i? '<button type="button" data-first aria-label="Poner como principal">★</button>':''}
+          <button type="button" class="del" data-del aria-label="Quitar">Quitar</button>
+          <button type="button" data-mv="1" aria-label="Mover después">▶</button>
+        </div>
+      </div>`).join('');
+  }
+  $('photos').addEventListener('input', (e) => { const i=e.target.dataset.cap; if(i!==undefined){ data.fotos[+i].texto=e.target.value; dirty(); } });
+  $('photos').addEventListener('click', (e) => {
+    const card=e.target.closest('.ph'); if(!card) return; const i=+card.dataset.i;
+    if (e.target.dataset.mv){ const j=i+ +e.target.dataset.mv; if(j<0||j>=data.fotos.length) return; [data.fotos[i],data.fotos[j]]=[data.fotos[j],data.fotos[i]]; renderPhotos(); dirty(); }
+    if (e.target.hasAttribute('data-first')){ data.fotos.unshift(data.fotos.splice(i,1)[0]); renderPhotos(); dirty(); }
+    if (e.target.hasAttribute('data-del')){ if(confirm('¿Quitar esta foto de la galería?')){ data.fotos.splice(i,1); renderPhotos(); dirty(); } }
+  });
+
+  // Reduce la foto antes de subirla (más rápida la página)
+  function shrink(file){
+    return new Promise((resolve) => {
+      const img=new Image(); const url=URL.createObjectURL(file);
+      img.onload=()=>{ const max=1800; let {width:w,height:h}=img; const k=Math.min(1,max/Math.max(w,h)); w=Math.round(w*k); h=Math.round(h*k);
+        const c=document.createElement('canvas'); c.width=w; c.height=h; c.getContext('2d').drawImage(img,0,0,w,h);
+        c.toBlob((b)=>{ URL.revokeObjectURL(url); resolve(b||file); },'image/jpeg',0.82); };
+      img.onerror=()=>{ URL.revokeObjectURL(url); resolve(file); };
+      img.src=url;
+    });
+  }
+  $('file').addEventListener('change', async (e) => {
+    const files=[...e.target.files]; if(!files.length) return;
+    let n=0;
+    for (const f of files){
+      setStatus(`Subiendo foto ${++n} de ${files.length}…`);
+      const blob=await shrink(f);
+      const ext = blob.type==='image/jpeg' ? 'jpg' : (f.name.split('.').pop()||'jpg').toLowerCase();
+      const path=`galeria/${Date.now()}-${Math.random().toString(36).slice(2,7)}.${ext}`;
+      const { error } = await sb.storage.from(cfg.bucket).upload(path, blob, { contentType: blob.type || f.type, cacheControl:'31536000' });
+      if (error){ setStatus('No se pudo subir: '+error.message,'bad'); continue; }
+      const { data:pub } = sb.storage.from(cfg.bucket).getPublicUrl(path);
+      data.fotos.splice(n-1, 0, { src: pub.publicUrl, texto: '' });
+      renderPhotos();
+    }
+    e.target.value='';
+    setStatus('Fotos subidas. Escribe una descripción y toca Guardar.');
+  });
+
+  function renderReviews(){
+    $('reviews').innerHTML = (data.resenas||[]).map((r,i)=>`
+      <div class="rev" data-i="${i}">
+        <textarea data-k="texto" placeholder="Texto de la reseña">${esc(r.texto)}</textarea>
+        <div class="row">
+          <div><label>Nombre</label><input data-k="nombre" value="${esc(r.nombre)}"></div>
+          <div><label>Ciudad (opcional)</label><input data-k="lugar" value="${esc(r.lugar)}"></div>
+          <button type="button" class="danger small" data-del>Quitar</button>
+        </div>
+      </div>`).join('');
+  }
+  $('reviews').addEventListener('input', (e) => { const box=e.target.closest('.rev'); const k=e.target.dataset.k; if(box&&k){ data.resenas[+box.dataset.i][k]=e.target.value; dirty(); } });
+  $('reviews').addEventListener('click', (e) => { if(!e.target.hasAttribute('data-del')) return; const i=+e.target.closest('.rev').dataset.i; if(confirm('¿Quitar esta reseña?')){ data.resenas.splice(i,1); renderReviews(); dirty(); } });
+  $('add-rev').addEventListener('click', () => { data.resenas.unshift({texto:'',nombre:'',lugar:''}); renderReviews(); dirty(); });
+
+  $('save').addEventListener('click', async () => {
+    FIELDS.forEach((k)=>{ data[k]=$('f-'+k).value.trim(); });
+    ['reviews','huespedes','dormitorios','camas','banos'].forEach((k)=>{ const n=parseInt(data[k],10); if(!isNaN(n)) data[k]=n; });
+    data.resenas=(data.resenas||[]).filter(r=>r.texto.trim());
+    setStatus('Guardando…');
+    const { error } = await sb.from(cfg.tabla).upsert({ id:1, data, updated_at:new Date().toISOString() });
+    if (error){ setStatus(/row-level|permission|policy/i.test(error.message)?'Este correo no tiene permiso para guardar.':'Error: '+error.message,'bad'); return; }
+    renderReviews();
+    setStatus('¡Publicado! Ya se ve en el sitio.','ok');
+  });
+
+  window.addEventListener('beforeunload',(e)=>{ if($('status').textContent==='Cambios sin guardar'){ e.preventDefault(); e.returnValue=''; } });
+  boot();
+})();
+</script>
+</body>
+</html>

@@ -3,257 +3,246 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vista Cordillera — Estación Central, Santiago</title>
+<title>Vista Cordillera 505 · Depto en Estación Central, Santiago</title>
+<meta name="description" content="Departamento completo en el Edificio O2, Estación Central. Favorito entre huéspedes de Airbnb (4,89 ★), a pasos del Metro Línea 1 y del Terminal Alameda. Reserva directo por WhatsApp.">
+<meta property="og:title" content="Vista Cordillera 505 · Santiago">
+<meta property="og:description" content="Depto completo con balcón, aire acondicionado y wifi rápido, a pasos del metro. Favorito entre huéspedes de Airbnb.">
+<meta property="og:image" content="https://vistacordillera505.cl/img/habitacion.jpg">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0F1E2B">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 18'%3E%3Cpath d='M1 17L8.5 5L13 12L16 7.5L23 17' stroke='%23E8A33D' stroke-width='2' fill='none' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<nav>
+<div class="aviso" id="aviso" hidden></div>
+
+<nav id="nav">
   <div class="wrap">
-    <div class="brand">
-      <svg width="20" height="16" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M1 17L8.5 5L13 12L16 7.5L23 17" stroke="#E8A33D" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
-      </svg>
-      <div>
-        Vista <span>Cordillera</span>
-        <small>DEPTO 505</small>
-      </div>
-    </div>
+    <a class="brand" href="#top" aria-label="Vista Cordillera 505, inicio">
+      <svg width="22" height="17" viewBox="0 0 24 18" fill="none" aria-hidden="true"><path d="M1 17L8.5 5L13 12L16 7.5L23 17" stroke="#E8A33D" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></svg>
+      <span>Vista <b>Cordillera</b> <small>505</small></span>
+    </a>
     <div class="nav-links">
-      <a href="#espacio">El espacio</a>
-      <a href="#barrio">El barrio</a>
-      <a href="#por-que">Por qué aquí</a>
-      <a href="#contacto">Contacto</a>
+      <a href="#galeria">Fotos</a>
+      <a href="#comodidades">Comodidades</a>
+      <a href="#ubicacion">Ubicación</a>
+      <a href="#resenas">Reseñas</a>
     </div>
     <a class="nav-cta" href="#contacto">Reservar</a>
   </div>
 </nav>
 
-<header class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <p class="eyebrow">Estación Central · Santiago de Chile</p>
-      <div class="rating-badge">
-        <span class="stars">★★★★★</span>
-        <span>4,9 <small>· 42 reseñas</small></span>
-        <span class="badge-divider">|</span>
-        <span>Favorito entre huéspedes</span>
+<header class="hero" id="top">
+  <div class="hero-media">
+    <img src="img/habitacion.jpg" alt="Dormitorio con ventanal y vista a Santiago" fetchpriority="high">
+  </div>
+  <div class="wrap hero-inner">
+    <div class="hero-copy">
+      <div class="pill-row">
+        <span class="pill pill-gold">
+          <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></svg>
+          Favorito entre huéspedes
+        </span>
+        <span class="pill">Superanfitriona</span>
       </div>
-      <h1>Duerme a pasos de <em>todo</em> Santiago.</h1>
-      <p class="lede">Un departamento pensado para quien llega o parte en tren, bus o avión. A cuadras del Terminal Alameda, con todo lo que necesitas caminando.</p>
+      <h1>Tu base en Santiago, con la <em>cordillera</em> de fondo.</h1>
+      <p class="lede">Departamento completo en el Edificio O2 de Estación Central: balcón, aire acondicionado, wifi rápido y el Metro Línea 1 a pasos de tu puerta.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="#contacto">Reservar directo →</a>
-        <a class="btn btn-ghost" href="#barrio">Ver el barrio</a>
+        <a class="btn btn-primary" data-wsp href="https://wa.me/56963008006?text=Hola!%20Quiero%20reservar%20el%20Depto%20505" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.3-.8-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>
+          Reservar por WhatsApp
+        </a>
+        <a class="btn btn-glass" href="#galeria">Ver fotos</a>
       </div>
     </div>
 
-    <div class="board" role="img" aria-label="Tablero de distancias desde Alameda 505">
-      <div class="board-head">
-        <span>Desde tu puerta</span>
-        <span class="live">en vivo</span>
+    <div class="hero-card" aria-label="Calificación en Airbnb">
+      <div class="score">
+        <span class="score-num" data-field="rating">4,89</span>
+        <span class="score-stars" aria-hidden="true">★★★★★</span>
       </div>
-
-      <div class="row" style="animation-delay:.05s">
-        <div class="dest">Terminal Alameda <small>tren + buses</small></div>
-        <div class="val">3 min</div>
-        <div class="val dim">—</div>
-      </div>
-      <div class="row" style="animation-delay:.12s">
-        <div class="dest">Mall Estación Central <small>tiendas y cine</small></div>
-        <div class="val">5 min</div>
-        <div class="val dim">2 min</div>
-      </div>
-      <div class="row" style="animation-delay:.19s">
-        <div class="dest">Líder Alameda <small>supermercado</small></div>
-        <div class="val">6 min</div>
-        <div class="val dim">2 min</div>
-      </div>
-      <div class="row" style="animation-delay:.26s">
-        <div class="dest">Movistar Arena <small>eventos y conciertos</small></div>
-        <div class="val">10 min</div>
-        <div class="val dim">4 min</div>
-      </div>
-      <div class="row" style="animation-delay:.33s">
-        <div class="dest">Metro Ecuador / San Alberto Hurtado <small>Línea 1</small></div>
-        <div class="val">4 min</div>
-        <div class="val dim">—</div>
-      </div>
-      <div class="row" style="animation-delay:.40s">
-        <div class="dest">Aeropuerto AMB <small>Arturo Merino Benítez</small></div>
-        <div class="val dim">—</div>
-        <div class="val">12 min</div>
-      </div>
-      <div class="row" style="animation-delay:.40s">
-        <div class="dest">Comisaria <small>Comisaria 21 Carabineros de Chile - Av. Ecuador 4050, 9170429 Estación Central, Región Metropolitana</small></div>
-        <div class="val dim">—</div>
-        <div class="val">5 min</div>
-      </div>
-      <div class="board-foot">
-        <span>A pie · en auto</span>
-        <span>Actualizado con Google Maps</span>
-      </div>
+      <div class="score-meta"><b data-field="reviews">85</b> reseñas en Airbnb</div>
+      <ul class="facts">
+        <li><b data-field="huespedes">3</b> huéspedes</li>
+        <li><b data-field="dormitorios">1</b> dormitorio</li>
+        <li><b data-field="camas">2</b> camas</li>
+        <li><b data-field="banos">1</b> baño</li>
+      </ul>
     </div>
   </div>
 </header>
 
-<section id="espacio" class="reveal">
+<section class="highlights">
+  <div class="wrap hl-grid">
+    <div class="hl"><span class="hl-ico">🔑</span><div><b>Check-in autónomo 24 h</b><small>Cerradura digital y conserjería 24 h</small></div></div>
+    <div class="hl"><span class="hl-ico">🚇</span><div><b>Metro Línea 1 a pasos</b><small>Ecuador y San Alberto Hurtado</small></div></div>
+    <div class="hl"><span class="hl-ico">❄️</span><div><b>Aire acondicionado</b><small>Frío y calor, 12.000 BTU</small></div></div>
+    <div class="hl"><span class="hl-ico">💬</span><div><b>Responde en menos de 1 h</b><small>100 % de tasa de respuesta</small></div></div>
+  </div>
+</section>
+
+<section id="galeria" class="reveal">
   <div class="wrap">
     <div class="section-head">
-      <p class="eyebrow">01 — El espacio</p>
-      <h2>Un departamento, no una habitación de hotel.</h2>
-      <p>Equipado para quedarte una noche o un mes: cocina completa, wifi de fibra, espacio de trabajo y la tranquilidad de tener tu propia llave.</p>
+      <p class="eyebrow">El espacio</p>
+      <h2>Un departamento entero, no una pieza de hotel.</h2>
+      <p>Luminoso, con ventanales de piso a cielo, doble vidrio PVC y todo lo necesario para quedarte una noche o un mes.</p>
     </div>
-    <div class="gallery">
-      <div class="g-tile g1">
-        <img src="img/tv.jpeg" alt="Living con luz de tarde">
-        <span>Living — luz de tarde</span>
-      </div>
-      <div class="g-tile g2">
-        <img src="img/cocina.jpeg" alt="Cocina equipada" loading="lazy">
-        <span>Cocina equipada</span>
-      </div>
-      <div class="g-tile g3">
-        <img src="img/habitacion.jpg" alt="Dormitorio principal" loading="lazy">
-        <span>Dormitorio principal</span>
-      </div>
-      <div class="g-tile g4">
-        <img src="img/ducha.jpeg" alt="Baño" loading="lazy">
-        <span>Baño equipado con agua caliente shampoo, acondicionador, jabon, toallas, papel higiénico</span>
-      </div>
-      <div class="g-tile g5">
-        <img src="img/balcon.jpeg" alt="Vista desde Alameda" loading="lazy">
-        <span>Vista Alameda</span>
-      </div>
+    <div class="gallery" id="gallery"></div>
+    <div class="gallery-more">
+      <button class="btn btn-outline" id="gallery-all" type="button">Ver todas las fotos</button>
     </div>
   </div>
 </section>
 
-<section class="alt reveal" id="por-que">
+<section id="comodidades" class="soft reveal">
   <div class="wrap">
     <div class="section-head">
-      <p class="eyebrow">02 — Por qué aquí</p>
-      <h2>Pensado para gente en movimiento.</h2>
+      <p class="eyebrow">Comodidades</p>
+      <h2>Llegas y tienes todo.</h2>
     </div>
-    <div class="props">
-      <div class="prop">
-        <p class="num">Conectividad</p>
-        <h3>El terminal, a la vuelta</h3>
-        <p>Llega en bus o tren y camina 3 minutos. Ideal si tienes un vuelo temprano o una conexión ajustada.</p>
+    <div class="amen">
+      <div class="amen-item"><span>📶</span>Wifi de fibra rápido</div>
+      <div class="amen-item"><span>📺</span>Smart TV con Netflix y YouTube</div>
+      <div class="amen-item"><span>🍳</span>Cocina completa con horno</div>
+      <div class="amen-item"><span>❄️</span>Aire acondicionado frío/calor</div>
+      <div class="amen-item"><span>🛏️</span>Cama 2 plazas + sofá cama</div>
+      <div class="amen-item"><span>🚿</span>Agua caliente por caldera</div>
+      <div class="amen-item"><span>🧴</span>Toallas, sábanas y amenities</div>
+      <div class="amen-item"><span>🌇</span>Balcón con vista</div>
+      <div class="amen-item"><span>🏋️</span>Gimnasio del edificio gratis</div>
+      <div class="amen-item"><span>🧺</span>Lavandería en el edificio</div>
+      <div class="amen-item"><span>🔥</span>Quinchos y sala gourmet*</div>
+      <div class="amen-item"><span>🛗</span>Ascensor y conserjería 24 h</div>
+    </div>
+    <p class="note">* Quinchos y sala gourmet se reservan con anticipación. Limpieza extra disponible para estadías largas.</p>
+  </div>
+</section>
+
+<section id="ubicacion" class="dark reveal">
+  <div class="wrap loc-grid">
+    <div>
+      <p class="eyebrow">Ubicación</p>
+      <h2>Todo Santiago, a una línea de metro.</h2>
+      <p class="muted">Alameda (Av. Libertador Bernardo O'Higgins) en Estación Central. Metro directo al centro, Providencia y Las Condes, y el aeropuerto a unos 12 minutos en auto.</p>
+      <div class="map">
+        <iframe title="Mapa del Edificio O2, Estación Central" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          src="https://maps.google.com/maps?q=Av.%20Libertador%20Bernardo%20O'Higgins%204361,%20Estaci%C3%B3n%20Central,%20Santiago&z=15&output=embed"></iframe>
       </div>
-      <div class="prop">
-        <p class="num">Autonomía</p>
-        <h3>Vives, no te hospedas</h3>
-        <p>Supermercado, farmacia y comida real a media cuadra. Cocina si quieres, sal si prefieres — tú decides.</p>
+    </div>
+
+    <div class="board" role="img" aria-label="Tablero de distancias desde el departamento">
+      <div class="board-head">
+        <span>Desde tu puerta</span>
+        <span class="cols"><span>a pie</span><span>auto</span></span>
       </div>
-      <div class="prop">
-        <p class="num">Comunicación</p>
-        <h3>Respuesta directa, sin intermediarios</h3>
-        <p>Coordinas por WhatsApp con quien realmente administra el departamento — no un call center.</p>
-      </div>
+      <div class="row"><div class="dest">Metro Ecuador / S. A. Hurtado <small>Línea 1</small></div><div class="val">4 min</div><div class="val dim">—</div></div>
+      <div class="row"><div class="dest">Terminal Alameda <small>trenes y buses</small></div><div class="val">3 min</div><div class="val dim">—</div></div>
+      <div class="row"><div class="dest">Mall Plaza Alameda <small>tiendas y cine</small></div><div class="val">5 min</div><div class="val dim">2 min</div></div>
+      <div class="row"><div class="dest">Líder Alameda <small>supermercado</small></div><div class="val">6 min</div><div class="val dim">2 min</div></div>
+      <div class="row"><div class="dest">Movistar Arena <small>conciertos y eventos</small></div><div class="val">10 min</div><div class="val dim">4 min</div></div>
+      <div class="row"><div class="dest">Parque Quinta Normal <small>museos y áreas verdes</small></div><div class="val dim">—</div><div class="val">8 min</div></div>
+      <div class="row"><div class="dest">Plaza de Armas <small>centro histórico</small></div><div class="val dim">—</div><div class="val">12 min</div></div>
+      <div class="row"><div class="dest">Aeropuerto AMB <small>Arturo Merino Benítez</small></div><div class="val dim">—</div><div class="val">12 min</div></div>
+      <div class="board-foot">No hay estacionamiento propio: te recomendamos Uber o metro.</div>
     </div>
   </div>
 </section>
 
-<div class="wrap" style="text-align:center; padding:0 24px 8px;">
-  <a class="btn btn-primary" href="#contacto">Reservar ahora →</a>
-</div>
-
-<section id="barrio" class="reveal">
+<section id="resenas" class="reveal">
   <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">03 — El barrio</p>
-      <h2>Todo lo que vas a necesitar, ya está cerca.</h2>
-      <p>Guía real del sector — la misma que le compartimos a cada huésped al llegar.</p>
+    <div class="rev-top">
+      <div class="section-head">
+        <p class="eyebrow">Reseñas</p>
+        <h2>Lo que dicen quienes ya se quedaron.</h2>
+      </div>
+      <div class="laurel">
+        <span class="laurel-num" data-field="rating">4,89</span>
+        <span class="laurel-txt">Favorito entre<br>huéspedes</span>
+      </div>
     </div>
-    <div class="neigh-list">
-      <div class="neigh-item"><div class="name">Mall Estación Central</div><div class="cat">Compras</div><div class="time">5 min a pie</div></div>
-      <div class="neigh-item"><div class="name">Líder Alameda</div><div class="cat">Supermercado</div><div class="time">6 min a pie</div></div>
-      <div class="neigh-item"><div class="name">Parrilladas Argentina Alameda</div><div class="cat">Comida</div><div class="time">4 min a pie</div></div>
-      <div class="neigh-item"><div class="name">Palacio del Poroto</div><div class="cat">Comida chilena</div><div class="time">7 min a pie</div></div>
-      <div class="neigh-item"><div class="name">Parque Quinta Normal</div><div class="cat">Cultura / aire libre</div><div class="time">12 min en auto</div></div>
-      <div class="neigh-item"><div class="name">Movistar Arena</div><div class="cat">Eventos</div><div class="time">10 min a pie</div></div>
-      <div class="neigh-item"><div class="name">Aeropuerto AMB</div><div class="cat">Viajes</div><div class="time">12 min en auto</div></div>
+
+    <div class="scores">
+      <div class="sc"><span>Limpieza</span><i style="--v:.96"></i><b>4,8</b></div>
+      <div class="sc"><span>Veracidad</span><i style="--v:.98"></i><b>4,9</b></div>
+      <div class="sc"><span>Llegada</span><i style="--v:.96"></i><b>4,8</b></div>
+      <div class="sc"><span>Comunicación</span><i style="--v:.96"></i><b>4,8</b></div>
+      <div class="sc"><span>Ubicación</span><i style="--v:.94"></i><b>4,7</b></div>
+      <div class="sc"><span>Calidad-precio</span><i style="--v:.98"></i><b>4,9</b></div>
     </div>
-    <p class="barrio-note">Nota: el edificio no cuenta con estacionamiento propio — recomendamos Uber o el Metro Línea 1, a 4 minutos caminando.</p>
+
+    <div class="reviews" id="reviews"></div>
   </div>
 </section>
 
-<section class="alt reveal">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">04 — Huéspedes</p>
-      <h2>Lo que dicen quienes ya se quedaron.</h2>
-      <p>4,9 sobre 5 en 42 reseñas de Airbnb — reseñas reales, sin editar.</p>
-    </div>
-    <div class="reviews">
-      <div class="review">
-        <p class="testi">"Todo muy bello, limpio y decorado precioso.  Esta ubicado cerca del metro que es un plus y está rodeado de negocios además frio no pasarás porque tienen un aire acondicionado que no traiciona"</p>
-        <p class="testi-meta">— Sofia</p>
-      </div>
-      <div class="review">
-        <p class="testi">"Excelente ubicación, apartamento impecable. Con champú, acondicionador, jabón líquido, secador de pelo, plancha, tés, café y todos los utensilios de cocina para turistas. Gracias por la flexibilidad."</p>
-        <p class="testi-meta">— Suzane</p>
-      </div>
-      <div class="review">
-        <p class="testi">"El lugar es tal cual como se muestra en las fotos: muy limpio, cómodo y completamente equipado. Tiene todo lo necesario, desde utensilios de cocina hasta toallas, lo que lo hace ideal tanto para estadías cortas como largas. Además, cuenta con buena vista, calefacción, Smart TV y wifi funcionando sin problemas. Me voy muy conforme con el arriendo, totalmente recomendable."</p>
-        <p class="testi-meta">— Roberto</p>
-      </div>
-      <div class="review">
-        <p class="testi">"apartamento sumamente cómodo y con todo lo necesario para pasar una excelente estadía en Santiago , la señorita Alejandra siempre muy amable y atenta a cualquier requerimiento, recomiendo al 100 %"</p>
-        <p class="testi-meta">Albert <br> Lima, Perú</p>
-      </div>
-      <div class="review">
-        <p class="testi">"El alojamiento fue excelente. Muy limpio, cómodo y bien equipado, tal como se muestra en las fotos. Tiene una buena ubicación y la comunicación con Alejandra fue rápida y súper amable."</p>
-        <p class="testi-meta">Fabiola <br> Santiago, Chile</p>
-      </div>
-      <div class="review">
-        <p class="testi">"Depto hermoso y la anfitriona muy considerada y flexible con nuestro horario de salida, recomiendo el lugar y con mi pareja nos volveríamos a quedar aca nuevamente 😁 muchas gracias por todo"</p>
-        <p class="testi-meta">Juan Francisco <br> Rio de Janeiro, Brasil</p>
-      </div>
+<section class="host soft reveal">
+  <div class="wrap host-grid">
+    <div class="host-avatar" aria-hidden="true">A</div>
+    <div>
+      <p class="eyebrow">Tu anfitriona</p>
+      <h2>Hola, soy Alejandra.</h2>
+      <p class="muted">Superanfitriona en Airbnb. Coordinas todo directo conmigo por WhatsApp, sin call center: llegada, dudas del barrio o una salida más tarde si se puede.</p>
+      <ul class="host-stats">
+        <li><b>100 %</b><span>tasa de respuesta</span></li>
+        <li><b>&lt; 1 h</b><span>tiempo de respuesta</span></li>
+        <li><b>4,84</b><span>promedio como anfitriona</span></li>
+      </ul>
     </div>
   </div>
 </section>
 
-<section class="final-cta reveal" id="contacto">
+<section class="final-cta" id="contacto">
+  <div class="final-bg" aria-hidden="true">
+    <svg viewBox="0 0 1440 220" preserveAspectRatio="none"><path d="M0 220 L180 90 L300 160 L470 40 L640 150 L780 70 L930 170 L1100 60 L1260 140 L1440 80 L1440 220 Z" fill="currentColor"/></svg>
+  </div>
   <div class="wrap">
     <p class="eyebrow">Reserva directa</p>
-    <h2>Sin comisión de plataforma.<br>Coordina directo conmigo.</h2>
-    <p>Respondo por WhatsApp normalmente en minutos. Si prefieres, también puedes reservar por Airbnb o Booking.</p>
-    <div class="cta-row">
-      <a class="btn btn-primary" href="https://wa.me/56963008006" target="_blank" rel="noopener">Escribir por WhatsApp</a>
-      <a class="btn btn-ghost" href="https://www.airbnb.com/h/vistacordillera-santiago-chile" target="_blank" rel="noopener">Ver en Airbnb</a>
-      <a class="btn btn-ghost" href="https://www.booking.com/Share-9G10Ls" target="_blank" rel="noopener">Ver en Booking</a>
+    <h2>Escríbeme y te respondo<br>en minutos.</h2>
+    <p class="muted">Reserva directo por WhatsApp o, si prefieres, por Airbnb o Booking.</p>
+    <div class="cta-row center">
+      <a class="btn btn-primary btn-lg" data-wsp href="https://wa.me/56963008006?text=Hola!%20Quiero%20reservar%20el%20Depto%20505" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+      <a class="btn btn-glass" data-airbnb href="https://www.airbnb.com/h/vistacordillera-santiago-chile" target="_blank" rel="noopener">Ver en Airbnb</a>
+      <a class="btn btn-glass" data-booking href="https://www.booking.com/Share-9G10Ls" target="_blank" rel="noopener">Ver en Booking</a>
     </div>
   </div>
 </section>
 
 <footer>
-  <div class="wrap">
-    <div class="footer-top">
-      <div>
-        <div class="footer-brand">Vista <span>Cordillera</span> 505</div>
-        <p class="footer-address">Alameda 4362 · Estación Central, Santiago</p>
-      </div>
-      <div class="footer-links">
-        <a href="https://wa.me/56963008006" target="_blank" rel="noopener">WhatsApp</a>
-        <a href="https://www.airbnb.com/h/vistacordillera-santiago-chile" target="_blank" rel="noopener">Airbnb</a>
-        <a href="https://www.booking.com/Share-9G10Ls" target="_blank" rel="noopener">Booking</a>
-        <a href="#contacto">Reservar</a>
-      </div>
+  <div class="wrap footer-row">
+    <div>
+      <div class="footer-brand">Vista <b>Cordillera</b> 505</div>
+      <p class="muted small">Edificio O2 · Alameda 4361, Estación Central, Santiago</p>
     </div>
-    <div class="footer-bottom">
-      <span>© 2026 Vista Cordillera 505</span>
-      <span>Sitio por <a href="https://pulidodev.com" target="_blank" rel="noopener">pulidodev.com</a></span>
+    <div class="footer-links">
+      <a data-wsp href="https://wa.me/56963008006" target="_blank" rel="noopener">WhatsApp</a>
+      <a data-airbnb href="https://www.airbnb.com/h/vistacordillera-santiago-chile" target="_blank" rel="noopener">Airbnb</a>
+      <a data-booking href="https://www.booking.com/Share-9G10Ls" target="_blank" rel="noopener">Booking</a>
     </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>© 2026 Vista Cordillera 505</span>
+    <span>Sitio por <a href="https://pulidodev.com" target="_blank" rel="noopener">pulidodev.com</a></span>
   </div>
 </footer>
 
-<a class="float-cta" href="https://wa.me/56963008006" target="_blank" rel="noopener" aria-label="Reservar por WhatsApp">
-  <span>Reservar por WhatsApp</span> →
+<a class="float-cta" data-wsp href="https://wa.me/56963008006?text=Hola!%20Quiero%20reservar%20el%20Depto%20505" target="_blank" rel="noopener" aria-label="Reservar por WhatsApp">
+  <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.3-.8-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>
+  <span>Reservar</span>
 </a>
 
+<div class="lightbox" id="lightbox" hidden>
+  <button class="lb-close" type="button" aria-label="Cerrar">×</button>
+  <button class="lb-nav lb-prev" type="button" aria-label="Foto anterior">‹</button>
+  <figure><img alt=""><figcaption></figcaption></figure>
+  <button class="lb-nav lb-next" type="button" aria-label="Foto siguiente">›</button>
+</div>
+
+<script src="config.js"></script>
+<script src="content.js"></script>
 <script src="main.js"></script>
 </body>
 </html>
