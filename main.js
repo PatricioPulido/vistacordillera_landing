@@ -33,6 +33,22 @@
     if (c.aviso && String(c.aviso).trim()) { aviso.textContent = c.aviso; aviso.hidden = false; }
     else aviso.hidden = true;
 
+    // Anfitriones (el primero es el contacto principal)
+    const hosts = (c.anfitriones || []).filter((h) => h && String(h.nombre || '').trim());
+    if (hosts.length) {
+      document.getElementById('hosts').innerHTML = hosts.map((h, i) => `
+        <article class="host-card${i === 0 ? ' main' : ''}">
+          <div class="host-avatar" aria-hidden="true">${safeUrl(h.foto) ? `<img src="${esc(h.foto)}" alt="" loading="lazy">` : esc(String(h.nombre).trim().charAt(0))}</div>
+          <div>
+            <h3>${esc(h.nombre)}</h3>
+            <span class="host-role">${esc(h.rol || (i === 0 ? 'Anfitrión' : 'Coanfitrión/a'))}</span>
+            <p>${esc(h.texto)}</p>
+            ${i === 0 ? `<a class="btn btn-primary" data-wsp href="https://wa.me/56963008006?text=Hola%20${encodeURIComponent(String(h.nombre).trim())}!%20Tengo%20una%20consulta%20por%20el%20Depto%20505" target="_blank" rel="noopener">Escribirle a ${esc(h.nombre)}</a>` : ''}
+          </div>
+        </article>`).join('');
+      document.querySelectorAll('[data-host-main]').forEach((el) => (el.textContent = String(hosts[0].nombre).trim()));
+    }
+
     // Enlaces
     if (c.whatsapp) {
       const num = String(c.whatsapp).replace(/\D/g, '');
@@ -132,6 +148,78 @@
     }), { threshold: 0.12 });
     revealEls.forEach((el) => io.observe(el));
   } else revealEls.forEach((el) => el.classList.add('is-visible'));
+
+  // Asistente con IA (Supabase Edge Function "asistente")
+  (function chat() {
+    const fab = document.getElementById('chat-fab');
+    const box = document.getElementById('chat');
+    const log = document.getElementById('chat-log');
+    const form = document.getElementById('chat-form');
+    const input = document.getElementById('chat-in');
+    const sugs = document.getElementById('chat-sugs');
+    if (!fab || !cfg.supabaseUrl) { if (fab) fab.hidden = true; return; }
+    const history = [];
+    let busy = false;
+
+    // Pinta el texto como nodos (seguro) y convierte enlaces y teléfonos en links
+    function fill(el, text) {
+      const re = /(https?:\/\/[^\s)]+[^\s).,;!?])|(\+?56\s?9[\s\d]{8,10}\d)/g;
+      let last = 0, m;
+      while ((m = re.exec(text))) {
+        el.append(text.slice(last, m.index));
+        const a = document.createElement('a');
+        a.textContent = m[0];
+        a.href = m[1] ? m[1] : `https://wa.me/${m[2].replace(/\D/g, '')}`;
+        a.target = '_blank'; a.rel = 'noopener';
+        el.append(a); last = m.index + m[0].length;
+      }
+      el.append(text.slice(last));
+    }
+    function add(role, text, extra) {
+      const d = document.createElement('div');
+      d.className = `msg ${role}${extra ? ' ' + extra : ''}`;
+      if (extra === 'typing') { d.setAttribute('aria-label', 'Escribiendo'); d.innerHTML = '<i></i><i></i><i></i>'; }
+      else if (role === 'bot') fill(d, text); else d.textContent = text;
+      log.appendChild(d); log.scrollTop = log.scrollHeight;
+      return d;
+    }
+    function toggle(open) {
+      box.hidden = !open; fab.setAttribute('aria-expanded', String(open));
+      document.body.classList.toggle('chat-open', open);
+      if (open) {
+        if (!log.children.length) add('bot', '¡Hola! 👋 Soy el asistente del Depto 505. Pregúntame lo que quieras sobre el departamento, el edificio o cómo llegar.');
+        if (window.matchMedia('(min-width: 481px)').matches) setTimeout(() => input.focus(), 60);
+      } else fab.focus();
+    }
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !box.hidden) toggle(false); });
+    fab.addEventListener('click', () => toggle(box.hidden));
+    document.getElementById('chat-x').addEventListener('click', () => toggle(false));
+
+    async function ask(q) {
+      q = q.trim(); if (!q || busy) return;
+      busy = true; form.querySelector('button').disabled = true; sugs.hidden = true;
+      add('user', q); history.push({ role: 'user', content: q });
+      input.value = '';
+      const wait = add('bot', '', 'typing');
+      try {
+        const res = await fetch(`${cfg.supabaseUrl}/functions/v1/asistente`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', apikey: cfg.supabaseKey },
+          body: JSON.stringify({ messages: history.slice(-12) }),
+        });
+        const out = await res.json().catch(() => ({}));
+        const text = out.reply || out.error || 'No pude responder ahora. Escríbenos por WhatsApp y te ayudamos.';
+        wait.remove(); add('bot', text, out.reply ? '' : 'err');
+        if (out.reply) history.push({ role: 'assistant', content: out.reply }); else history.pop();
+      } catch (e) {
+        wait.remove(); add('bot', 'No pude conectarme. Escríbenos por WhatsApp y te respondemos en minutos.', 'err'); history.pop();
+      }
+      busy = false; form.querySelector('button').disabled = false;
+      if (window.matchMedia('(min-width: 481px)').matches) input.focus();
+    }
+    form.addEventListener('submit', (e) => { e.preventDefault(); ask(input.value); });
+    sugs.addEventListener('click', (e) => { if (e.target.tagName === 'BUTTON') ask(e.target.textContent); });
+  })();
 
   render(base);
   loadRemote().then((remote) => { if (remote) render(Object.assign({}, base, remote)); });
