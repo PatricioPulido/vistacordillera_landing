@@ -54,6 +54,15 @@ button{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:11px 18p
 .login{max-width:400px;margin:40px auto;}
 .login .row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
 .msg{margin-top:12px;font-size:.9rem;}
+.host{display:grid;grid-template-columns:96px 1fr;gap:14px;border-top:1px solid var(--line);padding-top:14px;margin-top:14px;}
+.host:first-of-type{border-top:0;margin-top:0;padding-top:0;}
+.host .av{width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,var(--amber),#C9752A);display:grid;place-items:center;font-family:Fraunces,serif;font-size:2.4rem;color:var(--night);overflow:hidden;}
+.host .av img{width:100%;height:100%;object-fit:cover;}
+.host .pick{display:block;text-align:center;font-size:.78rem;color:var(--muted);margin-top:6px;cursor:pointer;text-decoration:underline;}
+.host .badge{display:inline-block;font-size:.7rem;font-weight:700;background:var(--amber);color:var(--night);padding:2px 8px;border-radius:99px;margin-left:6px;vertical-align:middle;}
+.host .two{display:grid;grid-template-columns:1fr 1fr;gap:0 10px;}
+.host .row2{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
+@media(max-width:520px){.host{grid-template-columns:1fr;}.host .av{margin:0 auto;}}
 [hidden]{display:none !important;}
 </style>
 </head>
@@ -108,6 +117,20 @@ button{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:11px 18p
     </section>
 
     <section class="card">
+      <h2>Anfitriones</h2>
+      <p class="hint">El primero es el contacto principal: su nombre sale en el botón de WhatsApp. Usa ▲ para cambiar el orden. Toca “Cambiar foto” para subir una foto de perfil.</p>
+      <div id="hosts"></div>
+      <button class="ghost small" type="button" id="add-host" style="margin-top:14px">+ Agregar anfitrión</button>
+      <input type="file" id="host-file" accept="image/*" hidden>
+    </section>
+
+    <section class="card">
+      <h2>Asistente con IA</h2>
+      <p class="hint">El asistente del sitio ya sabe lo que dice la página (comodidades, ubicación, distancias, anfitriones). Aquí puedes agregar más: horarios de llegada y salida, reglas de la casa, mascotas, cómo llegar desde el aeropuerto, recomendaciones del barrio… Es información pública: <b>no pongas códigos de acceso ni la clave del wifi</b>.</p>
+      <textarea id="f-asistente_info" maxlength="4000" style="min-height:150px" placeholder="Ej: Check-in desde las 15:00, check-out hasta las 12:00. No se aceptan mascotas. No se permiten fiestas."></textarea>
+    </section>
+
+    <section class="card">
       <h2>Datos del aviso</h2>
       <p class="hint">Cópialos de Airbnb cuando cambien.</p>
       <div class="grid">
@@ -145,7 +168,7 @@ button{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:11px 18p
   const cfg = window.SITE_CONFIG;
   const sb = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseKey);
   const $ = (id) => document.getElementById(id);
-  const FIELDS = ['titulo','bajada','aviso','rating','reviews','huespedes','dormitorios','camas','banos','whatsapp','airbnb','booking'];
+  const FIELDS = ['titulo','bajada','aviso','asistente_info','rating','reviews','huespedes','dormitorios','camas','banos','whatsapp','airbnb','booking'];
   let data = null;
 
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -182,7 +205,8 @@ button{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:11px 18p
     const remote = rows && rows.data && Object.keys(rows.data).length ? rows.data : {};
     data = JSON.parse(JSON.stringify(Object.assign({}, window.SITE_CONTENT, remote)));
     FIELDS.forEach((k) => { const el=$('f-'+k); el.value = data[k] ?? ''; el.addEventListener('input', dirty); });
-    renderPhotos(); renderReviews();
+    if (!Array.isArray(data.anfitriones)) data.anfitriones = [];
+    renderPhotos(); renderReviews(); renderHosts();
     setStatus(Object.keys(remote).length ? 'Contenido cargado' : 'Mostrando el contenido actual del sitio');
   }
 
@@ -240,6 +264,48 @@ button{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:11px 18p
     setStatus('Fotos subidas. Escribe una descripción y toca Guardar.');
   });
 
+  // ── Anfitriones ───────────────────────
+  let hostPhotoFor = null;
+  function renderHosts(){
+    $('hosts').innerHTML = data.anfitriones.map((h,i)=>`
+      <div class="host" data-i="${i}">
+        <div><div class="av">${h.foto?`<img src="${esc(view(h.foto))}" alt="">`:esc((h.nombre||'?').trim().charAt(0))}</div>
+          <a class="pick" data-photo>Cambiar foto</a></div>
+        <div>
+          <div class="two">
+            <div><label>Nombre ${i===0?'<span class="badge">Contacto principal</span>':''}</label><input data-k="nombre" value="${esc(h.nombre)}"></div>
+            <div><label>Rol</label><input data-k="rol" value="${esc(h.rol)}" placeholder="${i===0?'Anfitrión':'Coanfitriona'}"></div>
+          </div>
+          <label>Presentación</label><textarea data-k="texto" maxlength="400" style="min-height:70px">${esc(h.texto)}</textarea>
+          <div class="row2">
+            ${i?'<button type="button" class="ghost small" data-up>▲ Subir</button>':''}
+            ${h.foto?'<button type="button" class="ghost small" data-nophoto>Quitar foto</button>':''}
+            <button type="button" class="danger small" data-del>Quitar</button>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+  $('hosts').addEventListener('input', (e) => { const box=e.target.closest('.host'); const k=e.target.dataset.k; if(box&&k){ data.anfitriones[+box.dataset.i][k]=e.target.value; dirty(); } });
+  $('hosts').addEventListener('click', (e) => {
+    const box=e.target.closest('.host'); if(!box) return; const i=+box.dataset.i;
+    if (e.target.hasAttribute('data-photo')){ e.preventDefault(); hostPhotoFor=i; $('host-file').click(); }
+    if (e.target.hasAttribute('data-up')){ [data.anfitriones[i-1],data.anfitriones[i]]=[data.anfitriones[i],data.anfitriones[i-1]]; renderHosts(); dirty(); }
+    if (e.target.hasAttribute('data-nophoto')){ data.anfitriones[i].foto=''; renderHosts(); dirty(); }
+    if (e.target.hasAttribute('data-del')){ if(confirm('¿Quitar este anfitrión del sitio?')){ data.anfitriones.splice(i,1); renderHosts(); dirty(); } }
+  });
+  $('add-host').addEventListener('click', () => { data.anfitriones.push({nombre:'',rol:'',foto:'',texto:''}); renderHosts(); dirty(); });
+  $('host-file').addEventListener('change', async (e) => {
+    const f=e.target.files[0]; if(!f||hostPhotoFor===null) return;
+    setStatus('Subiendo foto de perfil…');
+    const blob=await shrink(f);
+    const path=`anfitriones/${Date.now()}-${Math.random().toString(36).slice(2,7)}.jpg`;
+    const { error } = await sb.storage.from(cfg.bucket).upload(path, blob, { contentType: blob.type || f.type, cacheControl:'31536000' });
+    e.target.value='';
+    if (error){ setStatus('No se pudo subir: '+error.message,'bad'); return; }
+    data.anfitriones[hostPhotoFor].foto = sb.storage.from(cfg.bucket).getPublicUrl(path).data.publicUrl;
+    renderHosts(); dirty(); setStatus('Foto lista. Toca Guardar para publicarla.');
+  });
+
   function renderReviews(){
     $('reviews').innerHTML = (data.resenas||[]).map((r,i)=>`
       <div class="rev" data-i="${i}">
@@ -259,6 +325,8 @@ button{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:11px 18p
     FIELDS.forEach((k)=>{ data[k]=$('f-'+k).value.trim(); });
     ['reviews','huespedes','dormitorios','camas','banos'].forEach((k)=>{ const n=parseInt(data[k],10); if(!isNaN(n)) data[k]=n; });
     data.resenas=(data.resenas||[]).filter(r=>r.texto.trim());
+    data.anfitriones=(data.anfitriones||[]).filter(h=>(h.nombre||'').trim());
+    renderHosts();
     setStatus('Guardando…');
     const { error } = await sb.from(cfg.tabla).upsert({ id:1, data, updated_at:new Date().toISOString() });
     if (error){ setStatus(/row-level|permission|policy/i.test(error.message)?'Este correo no tiene permiso para guardar.':'Error: '+error.message,'bad'); return; }

@@ -20,9 +20,22 @@ window.SITE_CONTENT = {
   camas: 2,
   banos: 1,
 
+  // WhatsApp de contacto (el de Patricio, anfitrión principal)
   whatsapp: "56963008006",
   airbnb: "https://www.airbnb.com/h/vistacordillera-santiago-chile",
   booking: "https://www.booking.com/Share-9G10Ls",
+
+  // Anfitriones: el primero es el contacto principal (al que le llega el WhatsApp).
+  // "foto" puede quedar vacía: se muestra la inicial del nombre.
+  anfitriones: [
+    { nombre: "Patricio", rol: "Anfitrión", foto: "", texto: "Coordino tu reserva, la llegada y cualquier duda directo por WhatsApp, sin call center. Si necesitas algo durante la estadía, escríbeme." },
+    { nombre: "Alejandra", rol: "Coanfitriona", foto: "", texto: "Me encargo de que el depto esté impecable y listo para tu llegada. Muchos huéspedes me conocen por las reseñas de Airbnb." }
+  ],
+
+  // Asistente con IA: datos extra que el asistente puede contarle a los huéspedes
+  // (horarios de check-in/out, reglas, estacionamiento, etc.). Es información PÚBLICA:
+  // no pongas aquí códigos de acceso ni claves de wifi.
+  asistente_info: "",
 
   // Galería: la primera foto es la grande. Puedes agregar, quitar o reordenar.
   fotos: [

@@ -47,7 +47,7 @@
           <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></svg>
           Favorito entre huéspedes
         </span>
-        <span class="pill">Superanfitriona</span>
+        <span class="pill">Anfitriones locales</span>
       </div>
       <h1 id="hero-title">Tu casa en Santiago, con la <em>cordillera</em> de fondo.</h1>
       <p class="lede" id="hero-lede">Departamento completo en el Edificio O2 de Estación Central: balcón, aire acondicionado, wifi rápido y el Metro Línea 1 a pasos de tu puerta.</p>
@@ -179,19 +179,19 @@
   </div>
 </section>
 
-<section class="host soft reveal">
-  <div class="wrap host-grid">
-    <div class="host-avatar" aria-hidden="true">A</div>
-    <div>
-      <p class="eyebrow">Tu anfitriona</p>
-      <h2>Hola, soy Alejandra.</h2>
-      <p class="muted">Superanfitriona en Airbnb. Coordinas todo directo conmigo por WhatsApp, sin call center: llegada, dudas del barrio o una salida más tarde si se puede.</p>
-      <ul class="host-stats">
-        <li><b>100 %</b><span>tasa de respuesta</span></li>
-        <li><b>&lt; 1 h</b><span>tiempo de respuesta</span></li>
-        <li><b>4,84</b><span>promedio como anfitriona</span></li>
-      </ul>
+<section class="host soft reveal" id="anfitriones">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Tus anfitriones</p>
+      <h2>Personas reales, no un call center.</h2>
+      <p class="muted">Coordinas todo directo por WhatsApp: llegada, dudas del barrio o una salida más tarde si se puede.</p>
     </div>
+    <div class="hosts" id="hosts"></div>
+    <ul class="host-stats">
+      <li><b>100 %</b><span>tasa de respuesta</span></li>
+      <li><b>&lt; 1 h</b><span>tiempo de respuesta</span></li>
+      <li><b data-field="rating">4,89</b><span>calificación en Airbnb</span></li>
+    </ul>
   </div>
 </section>
 
@@ -233,6 +233,28 @@
   <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.3-.8-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>
   <span>Reservar</span>
 </a>
+
+<button class="chat-fab" id="chat-fab" type="button" aria-controls="chat" aria-expanded="false">
+  <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3C6.5 3 2 6.9 2 11.7c0 2.4 1.1 4.6 3 6.2L4 22l4.6-2.3c1.1.3 2.2.5 3.4.5 5.5 0 10-3.9 10-8.6S17.5 3 12 3z"/></svg>
+  <span>¿Dudas? Pregúntame</span>
+</button>
+<div class="chat" id="chat" hidden role="dialog" aria-label="Asistente del Depto 505">
+  <div class="chat-head">
+    <div><b>Asistente del 505</b><small>Responde al instante · con IA</small></div>
+    <button type="button" class="chat-x" id="chat-x" aria-label="Cerrar">×</button>
+  </div>
+  <div class="chat-log" id="chat-log" aria-live="polite"></div>
+  <div class="chat-sugs" id="chat-sugs">
+    <button type="button">¿Cómo llego desde el aeropuerto?</button>
+    <button type="button">¿Qué incluye el depto?</button>
+    <button type="button">¿Hay estacionamiento?</button>
+  </div>
+  <form class="chat-form" id="chat-form">
+    <input id="chat-in" maxlength="500" autocomplete="off" placeholder="Escribe tu pregunta…" aria-label="Tu pregunta">
+    <button type="submit" aria-label="Enviar">➤</button>
+  </form>
+  <p class="chat-foot">Para reservar o precios exactos, <a data-wsp href="https://wa.me/56963008006?text=Hola!%20Quiero%20reservar%20el%20Depto%20505" target="_blank" rel="noopener">escríbele a <span data-host-main>Patricio</span> por WhatsApp</a>.</p>
+</div>
 
 <div class="lightbox" id="lightbox" hidden>
   <button class="lb-close" type="button" aria-label="Cerrar">×</button>

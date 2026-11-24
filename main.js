@@ -33,6 +33,22 @@
     if (c.aviso && String(c.aviso).trim()) { aviso.textContent = c.aviso; aviso.hidden = false; }
     else aviso.hidden = true;
 
+    // Anfitriones (el primero es el contacto principal)
+    const hosts = (c.anfitriones || []).filter((h) => h && String(h.nombre || '').trim());
+    if (hosts.length) {
+      document.getElementById('hosts').innerHTML = hosts.map((h, i) => `
+        <article class="host-card${i === 0 ? ' main' : ''}">
+          <div class="host-avatar" aria-hidden="true">${safeUrl(h.foto) ? `<img src="${esc(h.foto)}" alt="" loading="lazy">` : esc(String(h.nombre).trim().charAt(0))}</div>
+          <div>
+            <h3>${esc(h.nombre)}</h3>
+            <span class="host-role">${esc(h.rol || (i === 0 ? 'Anfitrión' : 'Coanfitrión/a'))}</span>
+            <p>${esc(h.texto)}</p>
+            ${i === 0 ? `<a class="btn btn-primary" data-wsp href="https://wa.me/56963008006?text=Hola%20${encodeURIComponent(String(h.nombre).trim())}!%20Tengo%20una%20consulta%20por%20el%20Depto%20505" target="_blank" rel="noopener">Escribirle a ${esc(h.nombre)}</a>` : ''}
+          </div>
+        </article>`).join('');
+      document.querySelectorAll('[data-host-main]').forEach((el) => (el.textContent = String(hosts[0].nombre).trim()));
+    }
+
     // Enlaces
     if (c.whatsapp) {
       const num = String(c.whatsapp).replace(/\D/g, '');
@@ -132,6 +148,60 @@
     }), { threshold: 0.12 });
     revealEls.forEach((el) => io.observe(el));
   } else revealEls.forEach((el) => el.classList.add('is-visible'));
+
+  // Asistente con IA (Supabase Edge Function "asistente")
+  (function chat() {
+    const fab = document.getElementById('chat-fab');
+    const box = document.getElementById('chat');
+    const log = document.getElementById('chat-log');
+    const form = document.getElementById('chat-form');
+    const input = document.getElementById('chat-in');
+    const sugs = document.getElementById('chat-sugs');
+    if (!fab || !cfg.supabaseUrl) { if (fab) fab.hidden = true; return; }
+    const history = [];
+    let busy = false;
+
+    function add(role, text, extra) {
+      const d = document.createElement('div');
+      d.className = `msg ${role}${extra ? ' ' + extra : ''}`;
+      d.textContent = text;
+      log.appendChild(d); log.scrollTop = log.scrollHeight;
+      return d;
+    }
+    function toggle(open) {
+      box.hidden = !open; fab.setAttribute('aria-expanded', String(open));
+      if (open) {
+        if (!log.children.length) add('bot', '¡Hola! Soy el asistente del Depto 505. Pregúntame lo que quieras sobre el departamento, el edificio o cómo llegar.');
+        setTimeout(() => input.focus(), 50);
+      }
+    }
+    fab.addEventListener('click', () => toggle(box.hidden));
+    document.getElementById('chat-x').addEventListener('click', () => toggle(false));
+
+    async function ask(q) {
+      q = q.trim(); if (!q || busy) return;
+      busy = true; form.querySelector('button').disabled = true; sugs.hidden = true;
+      add('user', q); history.push({ role: 'user', content: q });
+      input.value = '';
+      const wait = add('bot', 'Escribiendo…', 'typing');
+      try {
+        const res = await fetch(`${cfg.supabaseUrl}/functions/v1/asistente`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', apikey: cfg.supabaseKey },
+          body: JSON.stringify({ messages: history.slice(-12) }),
+        });
+        const out = await res.json().catch(() => ({}));
+        const text = out.reply || out.error || 'No pude responder ahora. Escríbenos por WhatsApp y te ayudamos.';
+        wait.remove(); add('bot', text);
+        if (out.reply) history.push({ role: 'assistant', content: out.reply }); else history.pop();
+      } catch (e) {
+        wait.remove(); add('bot', 'No pude conectarme. Escríbenos por WhatsApp y te respondemos en minutos.'); history.pop();
+      }
+      busy = false; form.querySelector('button').disabled = false; input.focus();
+    }
+    form.addEventListener('submit', (e) => { e.preventDefault(); ask(input.value); });
+    sugs.addEventListener('click', (e) => { if (e.target.tagName === 'BUTTON') ask(e.target.textContent); });
+  })();
 
   render(base);
   loadRemote().then((remote) => { if (remote) render(Object.assign({}, base, remote)); });
