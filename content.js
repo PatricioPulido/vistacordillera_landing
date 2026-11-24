@@ -7,6 +7,11 @@ window.SITE_CONTENT = {
   // Banda opcional arriba del sitio (déjala vacía "" para ocultarla)
   aviso: "",
 
+  // Portada (lo primero que se ve). Lo que pongas entre *asteriscos* sale destacado en dorado.
+  titulo: "Tu casa en Santiago, con la *cordillera* de fondo.",
+  bajada: "Departamento completo en el Edificio O2 de Estación Central: balcón, aire acondicionado, wifi rápido y el Metro Línea 1 a pasos de tu puerta.",
+  portada: "img/habitacion.jpg",
+
   // Datos del aviso de Airbnb
   rating: "4,89",
   reviews: 85,

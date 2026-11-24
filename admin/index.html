@@ -34,13 +34,17 @@ button{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:11px 18p
 .ph .tag{font-size:.7rem;font-weight:700;background:var(--amber);color:var(--night);padding:2px 8px;border-radius:99px;position:absolute;top:8px;left:8px;}
 .ph .top{position:relative;}
 .ph input{border:0;border-top:1px solid var(--line);border-radius:0;font-size:14px;background:#fff;}
-.ph .acts{display:flex;justify-content:space-between;padding:6px;gap:4px;}
-.ph .acts button{padding:6px 10px;font-size:.85rem;background:var(--sand);}
+.ph .acts{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;padding:6px;gap:4px;}
+.ph .acts button{padding:8px 0;font-size:.9rem;background:var(--sand);min-width:0;}
 .ph .acts .del{background:#fbe9e7;color:var(--bad);}
 .upload{min-height:110px !important;}
 .upload{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;border:2px dashed var(--line);border-radius:12px;min-height:160px;color:var(--muted);cursor:pointer;text-align:center;padding:12px;}
 .upload:hover{border-color:var(--amber);color:var(--ink);}
 .upload b{font-size:2rem;line-height:1;color:var(--amber);}
+.cover{position:relative;border-radius:12px;overflow:hidden;margin-bottom:6px;}
+.cover img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;}
+.cover span{position:absolute;left:8px;bottom:8px;right:8px;background:rgba(15,30,43,.7);color:#fff;font-size:.78rem;padding:5px 10px;border-radius:99px;width:max-content;max-width:calc(100% - 16px);}
+.ph .tag.cov{left:auto;right:8px;background:var(--night);color:var(--amber);}
 .rev{border-top:1px solid var(--line);padding-top:12px;margin-top:12px;}
 .rev .row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end;}
 .savebar{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:12px 16px;display:flex;justify-content:center;gap:12px;align-items:center;z-index:5;}
@@ -80,8 +84,18 @@ button{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:11px 18p
   <!-- EDITOR -->
   <div id="editor" hidden>
     <section class="card">
+      <h2>Portada</h2>
+      <p class="hint">Lo primero que ve la gente al entrar. Lo que escribas entre *asteriscos* sale destacado en dorado.</p>
+      <div class="cover"><img id="cover-img" alt=""><span>Foto de portada · cámbiala con el botón 🖼 en la foto que quieras</span></div>
+      <label for="f-titulo">Título</label>
+      <input id="f-titulo" maxlength="90" placeholder="Tu casa en Santiago, con la *cordillera* de fondo.">
+      <label for="f-bajada">Frase bajo el título</label>
+      <textarea id="f-bajada" maxlength="240"></textarea>
+    </section>
+
+    <section class="card">
       <h2>Fotos</h2>
-      <p class="hint">Las fotos nuevas quedan al principio. La primera es la grande de la galería: usa ★ para dejar una como principal y ◀ ▶ para ordenar. Escribe una descripción corta en cada una.</p>
+      <p class="hint">Las fotos nuevas quedan al principio. La primera es la grande de la galería: usa ★ para dejarla como principal, 🖼 para usarla de portada, ◀ ▶ para ordenar y ✕ para quitarla. Escribe una descripción corta en cada una.</p>
       <label class="upload" for="file"><b>+</b>Subir fotos<br><small>desde tu celular o computador (puedes elegir varias)</small></label>
       <div class="photos" id="photos"></div>
       <input type="file" id="file" accept="image/*" multiple hidden>
@@ -131,7 +145,7 @@ button{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:11px 18p
   const cfg = window.SITE_CONFIG;
   const sb = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseKey);
   const $ = (id) => document.getElementById(id);
-  const FIELDS = ['aviso','rating','reviews','huespedes','dormitorios','camas','banos','whatsapp','airbnb','booking'];
+  const FIELDS = ['titulo','bajada','aviso','rating','reviews','huespedes','dormitorios','camas','banos','whatsapp','airbnb','booking'];
   let data = null;
 
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -173,15 +187,17 @@ button{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:11px 18p
   }
 
   function renderPhotos(){
+    $('cover-img').src = view(data.portada || (data.fotos[0]||{}).src || '');
     const box=$('photos');
     box.innerHTML = data.fotos.map((f,i)=>`
       <div class="ph" data-i="${i}">
-        <div class="top"><img src="${esc(view(f.src))}" alt="">${i===0?'<span class="tag">Principal</span>':''}</div>
+        <div class="top"><img src="${esc(view(f.src))}" alt="">${i===0?'<span class="tag">Principal</span>':''}${f.src===data.portada?'<span class="tag cov">Portada</span>':''}</div>
         <input value="${esc(f.texto)}" placeholder="Descripción" data-cap="${i}">
         <div class="acts">
           <button type="button" data-mv="-1" aria-label="Mover antes">◀</button>
           ${i? '<button type="button" data-first aria-label="Poner como principal">★</button>':''}
-          <button type="button" class="del" data-del aria-label="Quitar">Quitar</button>
+          <button type="button" data-cover aria-label="Usar de portada" title="Usar de portada">🖼</button>
+          <button type="button" class="del" data-del aria-label="Quitar" title="Quitar">✕</button>
           <button type="button" data-mv="1" aria-label="Mover después">▶</button>
         </div>
       </div>`).join('');
@@ -190,6 +206,7 @@ button{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:11px 18p
   $('photos').addEventListener('click', (e) => {
     const card=e.target.closest('.ph'); if(!card) return; const i=+card.dataset.i;
     if (e.target.dataset.mv){ const j=i+ +e.target.dataset.mv; if(j<0||j>=data.fotos.length) return; [data.fotos[i],data.fotos[j]]=[data.fotos[j],data.fotos[i]]; renderPhotos(); dirty(); }
+    if (e.target.hasAttribute('data-cover')){ data.portada=data.fotos[i].src; renderPhotos(); dirty(); setStatus('Portada cambiada. Toca Guardar para publicarla.'); }
     if (e.target.hasAttribute('data-first')){ data.fotos.unshift(data.fotos.splice(i,1)[0]); renderPhotos(); dirty(); }
     if (e.target.hasAttribute('data-del')){ if(confirm('¿Quitar esta foto de la galería?')){ data.fotos.splice(i,1); renderPhotos(); dirty(); } }
   });
