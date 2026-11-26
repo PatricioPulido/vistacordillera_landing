@@ -13,8 +13,8 @@ window.SITE_CONTENT = {
   portada: "img/habitacion.jpg",
 
   // Datos del aviso de Airbnb
-  rating: "4,89",
-  reviews: 85,
+  rating: "4,9",
+  reviews: 86,
   huespedes: 3,
   dormitorios: 1,
   camas: 2,
