@@ -276,6 +276,7 @@ button{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:11px 18p
             <div><label>Nombre ${i===0?'<span class="badge">Contacto principal</span>':''}</label><input data-k="nombre" value="${esc(h.nombre)}"></div>
             <div><label>Rol</label><input data-k="rol" value="${esc(h.rol)}" placeholder="${i===0?'Anfitrión':'Coanfitriona'}"></div>
           </div>
+          ${i?`<label>WhatsApp (con 56, opcional)</label><input data-k="whatsapp" inputmode="tel" value="${esc(h.whatsapp||'')}" placeholder="569XXXXXXXX">`:''}
           <label>Presentación</label><textarea data-k="texto" maxlength="400" style="min-height:70px">${esc(h.texto)}</textarea>
           <div class="row2">
             ${i?'<button type="button" class="ghost small" data-up>▲ Subir</button>':''}
@@ -293,7 +294,7 @@ button{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:11px 18p
     if (e.target.hasAttribute('data-nophoto')){ data.anfitriones[i].foto=''; renderHosts(); dirty(); }
     if (e.target.hasAttribute('data-del')){ if(confirm('¿Quitar este anfitrión del sitio?')){ data.anfitriones.splice(i,1); renderHosts(); dirty(); } }
   });
-  $('add-host').addEventListener('click', () => { data.anfitriones.push({nombre:'',rol:'',foto:'',texto:''}); renderHosts(); dirty(); });
+  $('add-host').addEventListener('click', () => { data.anfitriones.push({nombre:'',rol:'',foto:'',texto:'',whatsapp:''}); renderHosts(); dirty(); });
   $('host-file').addEventListener('change', async (e) => {
     const f=e.target.files[0]; if(!f||hostPhotoFor===null) return;
     setStatus('Subiendo foto de perfil…');

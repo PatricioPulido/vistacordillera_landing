@@ -27,9 +27,11 @@ window.SITE_CONTENT = {
 
   // Anfitriones: el primero es el contacto principal (al que le llega el WhatsApp).
   // "foto" puede quedar vacía: se muestra la inicial del nombre.
+  // "whatsapp" (con 56) es opcional: si lo tiene, su tarjeta muestra un botón para escribirle.
+  // El del primero es siempre el WhatsApp de contacto de más abajo.
   anfitriones: [
     { nombre: "Patricio", rol: "Anfitrión", foto: "", texto: "Coordino tu reserva, la llegada y cualquier duda directo por WhatsApp, sin call center. Si necesitas algo durante la estadía, escríbeme." },
-    { nombre: "Alejandra", rol: "Coanfitriona", foto: "", texto: "Me encargo de que el depto esté impecable y listo para tu llegada. Muchos huéspedes me conocen por las reseñas de Airbnb." }
+    { nombre: "Alejandra", rol: "Coanfitriona", foto: "", texto: "Me encargo de que el depto esté impecable y listo para tu llegada. Muchos huéspedes me conocen por las reseñas de Airbnb.", whatsapp: "56992366502" }
   ],
 
   // Asistente con IA: datos extra que el asistente puede contarle a los huéspedes

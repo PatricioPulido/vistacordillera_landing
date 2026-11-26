@@ -34,6 +34,13 @@
     else aviso.hidden = true;
 
     // Anfitriones (el primero es el contacto principal)
+    const hostWsp = (h) => {
+      const num = String(h.whatsapp || '').replace(/\D/g, '');
+      if (num.length < 8) return '';
+      const nombre = String(h.nombre).trim();
+      const visible = num.length === 11 && num.startsWith('569') ? `+56 9 ${num.slice(3, 7)} ${num.slice(7)}` : '+' + num;
+      return `<a class="btn btn-outline" href="https://wa.me/${num}?text=Hola%20${encodeURIComponent(nombre)}!%20Tengo%20una%20consulta%20por%20el%20Depto%20505" target="_blank" rel="noopener">WhatsApp ${esc(nombre)} · ${visible}</a>`;
+    };
     const hosts = (c.anfitriones || []).filter((h) => h && String(h.nombre || '').trim());
     if (hosts.length) {
       document.getElementById('hosts').innerHTML = hosts.map((h, i) => `
@@ -43,7 +50,7 @@
             <h3>${esc(h.nombre)}</h3>
             <span class="host-role">${esc(h.rol || (i === 0 ? 'Anfitrión' : 'Coanfitrión/a'))}</span>
             <p>${esc(h.texto)}</p>
-            ${i === 0 ? `<a class="btn btn-primary" data-wsp href="https://wa.me/56963008006?text=Hola%20${encodeURIComponent(String(h.nombre).trim())}!%20Tengo%20una%20consulta%20por%20el%20Depto%20505" target="_blank" rel="noopener">Escribirle a ${esc(h.nombre)}</a>` : ''}
+            ${i === 0 ? `<a class="btn btn-primary" data-wsp href="https://wa.me/56963008006?text=Hola%20${encodeURIComponent(String(h.nombre).trim())}!%20Tengo%20una%20consulta%20por%20el%20Depto%20505" target="_blank" rel="noopener">Escribirle a ${esc(h.nombre)}</a>` : hostWsp(h)}
           </div>
         </article>`).join('');
       document.querySelectorAll('[data-host-main]').forEach((el) => (el.textContent = String(hosts[0].nombre).trim()));
