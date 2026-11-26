@@ -39,7 +39,7 @@
       if (num.length < 8) return '';
       const nombre = String(h.nombre).trim();
       const visible = num.length === 11 && num.startsWith('569') ? `+56 9 ${num.slice(3, 7)} ${num.slice(7)}` : '+' + num;
-      return `<a class="btn btn-outline" href="https://wa.me/${num}?text=Hola%20${encodeURIComponent(nombre)}!%20Tengo%20una%20consulta%20por%20el%20Depto%20505" target="_blank" rel="noopener">WhatsApp ${esc(nombre)} · ${visible}</a>`;
+      return `<a class="btn btn-outline" href="https://wa.me/${num}?text=Hola%20${encodeURIComponent(nombre)}!%20Tengo%20una%20consulta%20por%20el%20Depto%20505" target="_blank" rel="noopener">WhatsApp ${esc(nombre)} · <span style="white-space:nowrap">${visible}</span></a>`;
     };
     const hosts = (c.anfitriones || []).filter((h) => h && String(h.nombre || '').trim());
     if (hosts.length) {
