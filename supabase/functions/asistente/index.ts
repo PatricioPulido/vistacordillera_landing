@@ -73,7 +73,7 @@ function buildSystem(c: Content): string {
 
 <datos_del_departamento>
 ${FACTS}
-Calificación en Airbnb: ${c.rating || "4,89"} con ${c.reviews || 85} reseñas. Capacidad: ${c.huespedes || 3} huéspedes, ${c.dormitorios || 1} dormitorio, ${c.camas || 2} camas, ${c.banos || 1} baño.
+Calificación en Airbnb: ${c.rating || "4,9"} con ${c.reviews || 86} reseñas. Capacidad: ${c.huespedes || 3} huéspedes, ${c.dormitorios || 1} dormitorio, ${c.camas || 2} camas, ${c.banos || 1} baño.
 Fotos de la galería: ${fotos || "dormitorio, balcón, living, cocina, baño, áreas comunes del edificio"}.
 </datos_del_departamento>
 
