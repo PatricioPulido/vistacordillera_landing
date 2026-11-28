@@ -292,3 +292,53 @@ footer .muted{color:var(--slate);}
 .chat-foot{font-size:.72rem;line-height:1.4;color:var(--muted);padding:0 16px 12px;background:#fff;}
 .chat-foot a{color:var(--ink);}
 @media(prefers-reduced-motion:reduce){.chat,.msg,.chat-fab-ico::after,.msg.typing i{animation:none;}}
+
+/* DISPONIBILIDAD */
+.cal{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px;}
+.cal-top{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;}
+.cal-nav{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);font-size:1.5rem;line-height:1;display:grid;place-items:center;transition:background .2s,border-color .2s;}
+.cal-nav:hover:not(:disabled){background:var(--sand);border-color:var(--amber);}
+.cal-nav:disabled{opacity:.3;cursor:default;}
+.cal-months{display:grid;grid-template-columns:1fr 1fr;gap:40px;}
+.cal-month h3{font-size:1.2rem;text-align:center;margin:10px 0 16px;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px 0;}
+.cal-dow{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:center;padding-bottom:6px;}
+.cal-day{position:relative;aspect-ratio:1;display:grid;place-items:center;font-size:.95rem;font-weight:500;border-radius:0;font-variant-numeric:tabular-nums;}
+.cal-day span{width:100%;max-width:44px;aspect-ratio:1;display:grid;place-items:center;border-radius:50%;transition:background .15s,color .15s;}
+.cal-day.free:hover span{background:var(--sand);box-shadow:inset 0 0 0 1.5px var(--amber);}
+.cal-day.past{color:rgba(26,39,51,.25);cursor:default;}
+.cal-day.busy{color:rgba(26,39,51,.38);cursor:default;}
+.cal-day.busy span{text-decoration:line-through;text-decoration-thickness:1.5px;background:repeating-linear-gradient(135deg,rgba(26,39,51,.05) 0 4px,transparent 4px 8px);}
+.cal-day.busy.out{cursor:pointer;color:var(--ink);}
+.cal-day.busy.out span{text-decoration:none;box-shadow:inset 0 0 0 1.5px var(--amber);background:none;}
+.cal-day.today span{box-shadow:inset 0 0 0 1.5px var(--ink);}
+.cal-day.in{background:rgba(232,163,61,.18);}
+.ranged .cal-day.start{background:linear-gradient(90deg,transparent 50%,rgba(232,163,61,.18) 50%);}
+.ranged .cal-day.end{background:linear-gradient(90deg,rgba(232,163,61,.18) 50%,transparent 50%);}
+.cal-day.start span,.cal-day.end span{background:var(--amber);color:var(--night);font-weight:700;text-decoration:none;box-shadow:none;}
+.cal-foot{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;border-top:1px solid var(--line);margin-top:22px;padding-top:20px;}
+.cal-legend{list-style:none;display:flex;gap:18px;flex-wrap:wrap;font-size:.85rem;color:var(--muted);}
+.cal-legend li{display:flex;align-items:center;gap:7px;}
+.cal-legend i{width:16px;height:16px;border-radius:50%;display:inline-block;}
+.lg-free{box-shadow:inset 0 0 0 1.5px var(--line),inset 0 0 0 20px #fff;border:1px solid rgba(26,39,51,.2);}
+.lg-busy{background:repeating-linear-gradient(135deg,rgba(26,39,51,.25) 0 3px,transparent 3px 6px);}
+.lg-sel{background:var(--amber);}
+.cal-pick{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-left:auto;}
+.cal-sum{font-size:.95rem;}
+.cal-sum b{font-family:'Fraunces',Georgia,serif;font-size:1.05rem;}
+.cal-sum small{display:block;color:var(--muted);font-size:.82rem;}
+.cal-acts{display:flex;align-items:center;gap:12px;}
+.cal-clear{font-size:.88rem;color:var(--muted);text-decoration:underline;}
+.cal-clear:hover{color:var(--ink);}
+@media(max-width:760px){
+  .cal{padding:18px 12px;}
+  .cal-months{grid-template-columns:1fr;}
+  .cal-top{grid-template-columns:1fr;position:relative;}
+  .cal-nav{position:absolute;top:2px;width:40px;height:40px;z-index:1;}
+  #cal-prev{left:4px;} #cal-next{right:4px;}
+  .cal-foot{flex-direction:column;align-items:stretch;}
+  .cal-pick{margin-left:0;flex-direction:column;align-items:stretch;text-align:center;}
+  .cal-acts{flex-direction:column-reverse;}
+  .cal-acts .btn{width:100%;}
+  .cal-legend{justify-content:center;}
+}

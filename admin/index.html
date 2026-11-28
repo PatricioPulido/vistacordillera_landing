@@ -63,6 +63,19 @@ button{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:11px 18p
 .host .two{display:grid;grid-template-columns:1fr 1fr;gap:0 10px;}
 .host .row2{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
 @media(max-width:520px){.host{grid-template-columns:1fr;}.host .av{margin:0 auto;}}
+.cal-src{border-top:1px solid var(--line);padding-top:12px;margin-top:12px;}
+.cal-src:first-child{border-top:0;margin-top:0;padding-top:0;}
+.cal-src .st{font-size:.8rem;color:var(--muted);margin-top:4px;}
+.cal-src .st.ok{color:var(--ok);} .cal-src .st.bad{color:var(--bad);}
+.blk-form{display:grid;grid-template-columns:1fr 1fr 1.4fr auto;gap:8px;align-items:end;}
+@media(max-width:620px){.blk-form{grid-template-columns:1fr 1fr;}.blk-form .wide{grid-column:1/-1;}}
+.blk{display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--line);padding:9px 0;font-size:.9rem;}
+.blk small{color:var(--muted);display:block;}
+.blk .src{font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--sand);margin-right:6px;}
+.blk .src.manual{background:var(--amber);color:var(--night);}
+.subh{font-size:.95rem;font-family:Inter,sans-serif;font-weight:600;margin:20px 0 6px;}
+.row3{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px;}
+#cal-msg{font-size:.85rem;color:var(--muted);}
 [hidden]{display:none !important;}
 </style>
 </head>
@@ -114,6 +127,28 @@ button{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:11px 18p
       <h2>Aviso destacado</h2>
       <p class="hint">Una frase que aparece en una franja arriba del sitio. Déjalo vacío para ocultarla. Ej: “¡Diciembre con 10 % de descuento reservando directo!”</p>
       <input id="f-aviso" maxlength="140">
+    </section>
+
+    <section class="card" id="cal-card">
+      <h2>Calendario de disponibilidad</h2>
+      <p class="hint">El sitio muestra los días ocupados para que la gente vea qué fechas están libres. Se lee solo desde Airbnb y Booking (cada 20 minutos) y además puedes bloquear fechas a mano. <b>Lo de esta tarjeta se guarda al instante</b>, no necesita el botón de abajo.</p>
+      <h3 class="subh">Links de calendario (iCal)</h3>
+      <p class="hint">En Airbnb: Calendario → el depto → Disponibilidad → Conectar calendarios → Exportar calendario, y copia el link que termina en .ics. En Booking: Tarifas y disponibilidad → Sincronizar calendarios → Exportar. Estos links son privados: no se muestran en el sitio.</p>
+      <div id="cal-srcs"></div>
+      <div class="row3">
+        <button class="ghost small" type="button" id="cal-sync">↻ Sincronizar ahora</button>
+        <span id="cal-msg"></span>
+      </div>
+      <h3 class="subh">Bloquear fechas a mano</h3>
+      <p class="hint">Para una reserva directa por WhatsApp, mantención o uso propio. Se bloquean todas las noches entre ambas fechas, las dos incluidas.</p>
+      <div class="blk-form">
+        <div><label for="blk-ini">Primera noche</label><input id="blk-ini" type="date"></div>
+        <div><label for="blk-fin">Última noche</label><input id="blk-fin" type="date"></div>
+        <div class="wide"><label for="blk-nota">Nota (solo la ves tú)</label><input id="blk-nota" maxlength="120" placeholder="Ej: Reserva directa Juan"></div>
+        <button class="primary small wide" type="button" id="blk-add">Bloquear</button>
+      </div>
+      <h3 class="subh">Próximas fechas ocupadas</h3>
+      <div id="blk-list"><p class="hint">Cargando…</p></div>
     </section>
 
     <section class="card">
@@ -206,7 +241,7 @@ button{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:11px 18p
     data = JSON.parse(JSON.stringify(Object.assign({}, window.SITE_CONTENT, remote)));
     FIELDS.forEach((k) => { const el=$('f-'+k); el.value = data[k] ?? ''; el.addEventListener('input', dirty); });
     if (!Array.isArray(data.anfitriones)) data.anfitriones = [];
-    renderPhotos(); renderReviews(); renderHosts();
+    renderPhotos(); renderReviews(); renderHosts(); loadCal();
     setStatus(Object.keys(remote).length ? 'Contenido cargado' : 'Mostrando el contenido actual del sitio');
   }
 
@@ -333,6 +368,77 @@ button{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:11px 18p
     if (error){ setStatus(/row-level|permission|policy/i.test(error.message)?'Este correo no tiene permiso para guardar.':'Error: '+error.message,'bad'); return; }
     renderReviews();
     setStatus('¡Publicado! Ya se ve en el sitio.','ok');
+  });
+
+  // ── Calendario ────────────────────────
+  const fmtD = (s) => new Date(s+'T12:00:00').toLocaleDateString('es-CL',{weekday:'short',day:'numeric',month:'short'});
+  const addD = (s,n) => { const d=new Date(s+'T12:00:00'); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); };
+  const when = (t) => t ? new Date(t).toLocaleString('es-CL',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}) : '';
+  let fuentes = [];
+  async function loadCal(){
+    const hoy = new Date().toLocaleDateString('en-CA',{timeZone:'America/Santiago'});
+    const [{ data:fs, error:e1 }, { data:bs, error:e2 }] = await Promise.all([
+      sb.from('calendario_fuentes').select('*').order('id'),
+      sb.from('calendario_bloqueos').select('id,inicio,fin,origen,nota,fuente_id').gt('fin',hoy).order('inicio').limit(200)
+    ]);
+    if (e1||e2){ $('cal-card').querySelector('.hint').textContent='El calendario todavía no está activado en Supabase.'; $('blk-list').innerHTML=''; return; }
+    fuentes = fs||[];
+    $('cal-srcs').innerHTML = fuentes.map((f)=>`
+      <div class="cal-src" data-id="${f.id}">
+        <label>${esc(f.nombre)}</label>
+        <input type="url" value="${esc(f.url)}" placeholder="https://…/calendar.ics" data-url>
+        <div class="st ${f.ultimo_error?'bad':(f.ultimo_ok?'ok':'')}">${!f.url?'Sin link todavía':(f.ultimo_error?'⚠ '+esc(f.ultimo_error):(f.ultimo_ok?'✓ Leído '+when(f.ultimo_ok):'Pendiente de sincronizar'))}</div>
+      </div>`).join('');
+    const nombre = (id) => (fuentes.find((f)=>f.id===id)||{}).nombre || 'iCal';
+    $('blk-list').innerHTML = (bs||[]).length ? bs.map((b)=>{
+      const n = Math.round((new Date(b.fin)-new Date(b.inicio))/864e5);
+      const manual = b.origen==='manual';
+      return `<div class="blk" data-id="${b.id}"><div><span class="src ${manual?'manual':''}">${manual?'Manual':esc(nombre(b.fuente_id))}</span>
+        ${manual?`${fmtD(b.inicio)} → ${fmtD(addD(b.fin,-1))}`:`${fmtD(b.inicio)} → sale ${fmtD(b.fin)}`} · ${n} noche${n>1?'s':''}
+        ${b.nota?`<small>${esc(b.nota)}</small>`:''}</div>
+        ${manual?'<button type="button" class="danger small" data-unblock>Quitar</button>':''}</div>`;
+    }).join('') : '<p class="hint">No hay fechas ocupadas próximamente.</p>';
+  }
+  $('cal-srcs').addEventListener('change', async (e) => {
+    if (!e.target.hasAttribute('data-url')) return;
+    const id=+e.target.closest('.cal-src').dataset.id; const url=e.target.value.trim();
+    if (url && !/^https:\/\//i.test(url)){ $('cal-msg').textContent='El link debe empezar con https://'; return; }
+    $('cal-msg').textContent='Guardando link…';
+    const { error } = await sb.from('calendario_fuentes').update({ url, ultimo_sync:null, ultimo_error:null }).eq('id',id);
+    if (error){ $('cal-msg').textContent='No se pudo guardar: '+error.message; return; }
+    if (!url) await sb.from('calendario_bloqueos').delete().eq('fuente_id',id);
+    await syncNow();
+  });
+  async function syncNow(){
+    $('cal-msg').textContent='Sincronizando…';
+    try {
+      const { data:{ session } } = await sb.auth.getSession();
+      const r = await fetch(`${cfg.supabaseUrl}/functions/v1/calendario?forzar=1`, { headers:{ apikey: cfg.supabaseKey, Authorization:'Bearer '+session.access_token } });
+      const out = await r.json();
+      if (!r.ok) throw new Error(out.error||r.status);
+      const partes = (out.fuentes||[]).filter((f)=>f.eventos!==undefined).map((f)=>`${f.nombre}: ${f.eventos} bloqueo${f.eventos===1?'':'s'}`);
+      $('cal-msg').textContent = partes.length ? '✓ Listo · '+partes.join(' · ') : '✓ Listo';
+    } catch(err){ $('cal-msg').textContent='No se pudo sincronizar ('+(err.message||err)+')'; }
+    loadCal();
+  }
+  $('cal-sync').addEventListener('click', syncNow);
+  $('blk-add').addEventListener('click', async () => {
+    const ini=$('blk-ini').value, ult=$('blk-fin').value || $('blk-ini').value;
+    if (!ini){ $('cal-msg').textContent='Elige la primera noche a bloquear.'; return; }
+    if (ult<ini){ $('cal-msg').textContent='La última noche no puede ser antes que la primera.'; return; }
+    const { error } = await sb.from('calendario_bloqueos').insert({ inicio:ini, fin:addD(ult,1), origen:'manual', nota:$('blk-nota').value.trim() });
+    if (error){ $('cal-msg').textContent='No se pudo bloquear: '+error.message; return; }
+    $('blk-ini').value=$('blk-fin').value=$('blk-nota').value='';
+    $('cal-msg').textContent='✓ Fechas bloqueadas. Ya se ven en el sitio.';
+    loadCal();
+  });
+  $('blk-ini').addEventListener('change', () => { if (!$('blk-fin').value || $('blk-fin').value<$('blk-ini').value) $('blk-fin').value=$('blk-ini').value; });
+  $('blk-list').addEventListener('click', async (e) => {
+    if (!e.target.hasAttribute('data-unblock')) return;
+    if (!confirm('¿Liberar estas fechas?')) return;
+    const { error } = await sb.from('calendario_bloqueos').delete().eq('id', +e.target.closest('.blk').dataset.id);
+    $('cal-msg').textContent = error ? 'No se pudo quitar: '+error.message : '✓ Fechas liberadas.';
+    loadCal();
   });
 
   window.addEventListener('beforeunload',(e)=>{ if($('status').textContent==='Cambios sin guardar'){ e.preventDefault(); e.returnValue=''; } });

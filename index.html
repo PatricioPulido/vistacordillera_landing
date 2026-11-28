@@ -31,6 +31,7 @@
       <a href="#comodidades">Comodidades</a>
       <a href="#ubicacion">Ubicación</a>
       <a href="#resenas">Reseñas</a>
+      <a href="#disponibilidad" data-cal-link hidden>Disponibilidad</a>
     </div>
     <a class="nav-cta" href="#contacto">Reservar</a>
   </div>
@@ -192,6 +193,38 @@
       <li><b>&lt; 1 h</b><span>tiempo de respuesta</span></li>
       <li><b data-field="rating">4,9</b><span>calificación en Airbnb</span></li>
     </ul>
+  </div>
+</section>
+
+<section id="disponibilidad" class="cal-section reveal" hidden>
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Disponibilidad</p>
+      <h2>¿Está libre en tus fechas?</h2>
+      <p>Toca el día de llegada y después el de salida. Los días tachados ya están reservados.</p>
+    </div>
+    <div class="cal">
+      <div class="cal-top">
+        <button type="button" class="cal-nav" id="cal-prev" aria-label="Mes anterior">‹</button>
+        <div class="cal-months" id="cal-months"></div>
+        <button type="button" class="cal-nav" id="cal-next" aria-label="Mes siguiente">›</button>
+      </div>
+      <div class="cal-foot">
+        <ul class="cal-legend" aria-hidden="true">
+          <li><i class="lg-free"></i>Disponible</li>
+          <li><i class="lg-busy"></i>Reservado</li>
+          <li><i class="lg-sel"></i>Tus fechas</li>
+        </ul>
+        <div class="cal-pick">
+          <div class="cal-sum" id="cal-sum" aria-live="polite">Elige tu día de llegada</div>
+          <div class="cal-acts">
+            <button type="button" class="cal-clear" id="cal-clear" hidden>Borrar</button>
+            <a class="btn btn-primary" id="cal-wsp" href="https://wa.me/56963008006" target="_blank" rel="noopener">Consultar por WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="note" id="cal-upd"></p>
   </div>
 </section>
 
